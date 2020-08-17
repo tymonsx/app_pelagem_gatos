@@ -1,107 +1,51 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title>
-          Quasar App
+        <img src="~assets/epm.png" alt="Logo Sorvete" id="logoSorvete" clickable v-ripple @click="$router.replace('/')"/>
+        <q-toolbar-title id="tituloGeral" clickable v-ripple @click="$router.replace('/')">
+          App Pelagem Gatos
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn id="botaoSobre" icon="info" to="/sobre" flat />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
+    <q-footer>
+      <q-toolbar>
+        <q-toolbar-title>
+          <div>
+            <img id="logoEpm" src="~assets/epm.png"/>
+          </div>
+          <!--<div
+            class="text-right"
+          >-->
+          <div
+            class="desktop-only text-caption text-center float-left"
+            style="width:80%"
+          >
+            Rua Botucatu, 862-Térreo, Vila Clementino, São Paulo (SP). Cep:
+            04023-062 - Email: contato@dis.epm.br - CNPJ:60.453.032/0001-74
+          </div>
+            <img
+              id="logoUnifesp"
+              class="text-right"
+              src="~assets/logo_unifesp.png"
+            />
+          <!--</div>-->
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
     <q-page-container>
-      <router-view />
+      <router-view :teste="3" />
     </q-page-container>
   </q-layout>
 </template>
 
-<script>
-import EssentialLink from 'components/EssentialLink.vue'
 
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+<script>
+//import EssentialLink from 'components/EssentialLink.vue'
 
 export default {
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data () {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
-  }
+  name: 'MainLayout'
 }
 </script>

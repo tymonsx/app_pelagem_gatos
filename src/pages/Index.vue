@@ -1,14 +1,15 @@
 <template>
   <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
-    >
+    <AnalisePelagem />
   </q-page>
 </template>
 
 <script>
+import AnalisePelagem from "components/AnalisePelagem.vue";
 export default {
-  name: 'PageIndex'
-}
+  name: "PageIndex",
+  components: {
+    AnalisePelagem
+  }
+};
 </script>
