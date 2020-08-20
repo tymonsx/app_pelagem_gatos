@@ -2,7 +2,8 @@
   <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
-        <img src="~assets/epm.png" alt="Logo Sorvete" id="logoSorvete" clickable v-ripple @click="$router.replace('/')"/>
+        <!--<img src="~assets/epm.png" alt="Logo Sorvete" id="logoSorvete" clickable v-ripple @click="$router.replace('/')"/>-->
+        <img src="~assets/quasar-logo-full.svg" alt="Logo Sorvete" id="logoSorvete" clickable v-ripple @click="$router.replace('/')"/>
         <q-toolbar-title id="tituloGeral" clickable v-ripple @click="$router.replace('/')">
           App Pelagem Gatos
         </q-toolbar-title>
