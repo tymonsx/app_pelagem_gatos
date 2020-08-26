@@ -115,9 +115,9 @@ cfg.module.rules.push({
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `appPelagemGatos`,
-        short_name: `appPelagemGatos`,
-        description: `aplicativo de reconhecimento de pelagens via camera`,
+        name: `App_pelagem_gatos`,
+        short_name: `App_pelagem_gatos`,
+        description: `App de reconheciemnto de pelagem de gatos pela camera`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

@@ -1,6 +1,6 @@
-# appPelagemGatos (app_pelagem_gatos)
+# App_pelagem_gatos (app_pelagem_gatos)
 
-aplicativo de reconhecimento de pelagens via camera
+App de reconheciemnto de pelagem de gatos pela camera
 
 ## Install the dependencies
 ```bash

@@ -1,8 +1,8 @@
 {
   "name": "app_pelagem_gatos",
   "version": "0.0.1",
-  "description": "aplicativo de reconhecimento de pelagens via camera",
-  "productName": "appPelagemGatos",
+  "description": "App de reconheciemnto de pelagem de gatos pela camera",
+  "productName": "App_pelagem_gatos",
   "author": "Tymonsx <tymonsx@hotmail.com>",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "cordova-android": "^9.0.0",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0"
   },
