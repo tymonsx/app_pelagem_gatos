@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AnalisePelagem from "components/AnalisePelagem.vue";
+import AnalisePelagem from "components/AnalisePelagemCameraAPI.vue";
 export default {
   name: "PageIndex",
   components: {
