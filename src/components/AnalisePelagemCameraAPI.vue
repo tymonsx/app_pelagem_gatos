@@ -15,7 +15,7 @@
           >Tirar foto</q-btn
         ><br />
 
-        <p id="msg" class="textoPredito">{{ msg }}</p>
+        <div id="msg" v-html="msg" class="textoPredito"></div>
       </div>
     </q-page>
   </q-layout>
@@ -141,21 +141,16 @@ export default {
       */
       this.msg =
         valor.argMax(-1).dataSync()[0] +
-        " - " +
+        " - <b>" +
         this.labels[valor.argMax(-1).dataSync()[0]] +
-        ": " +
+        "</b>: " +
         (valor.dataSync()[valor.argMax(-1).dataSync()[0]] * 100).toFixed(4) +
-        "%\n\n";
+        "%\n\n <hr><div style='text-align:left'>";
 
       valor.dataSync().forEach((element, index) => {
+        let percent = (element * 100).toFixed(4);
         this.msg +=
-          " " +
-          index +
-          " - " +
-          element.toFixed(4) +
-          "% - " +
-          this.labels[index] +
-          "\n";
+          " " + index + " - " + percent + "% - " + this.labels[index] + "\n";
       });
     }
   }
