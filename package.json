@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@tensorflow/tfjs": "^2.3.0",
     "cordova-android": "^9.0.0",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
-    "vuex-pathify": "^1.4.1"
+    "vuex-pathify": "^1.4.1",
+    "whatwg-fetch": "^3.4.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

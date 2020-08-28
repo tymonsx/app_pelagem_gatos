@@ -15,7 +15,7 @@
           >Tirar foto</q-btn
         >
 
-        <p id="msg"></p>
+        <p id="msg">{{ msg }}</p>
       </div>
     </q-page>
   </q-layout>
@@ -28,16 +28,29 @@
 </style>
 
 <script>
+import * as tf from "@tensorflow/tfjs";
+import { fetch as fetchPolyfill } from "whatwg-fetch";
+
 export default {
   data() {
     return {
       height: 250,
       width: 250,
-      aspect: 16 / 9
+      aspect: 16 / 9,
+      msg: "Tire uma foto do gato",
+      model: tf.sequential(),
+      labels: ["solid", "mackerel"],
+      valueToPredict: ""
     };
   },
   mounted() {
     // this.width = this.height * this.aspect;
+    try {
+      window.fetch = fetchPolyfill;
+      this.carregar_modelo();
+    } catch (error) {
+      alert(error);
+    }
   },
   methods: {
     takephoto() {
@@ -58,6 +71,7 @@ export default {
           //sucesso
           document.getElementById("msg").textContent = imgURI;
           document.getElementById("photo").src = imgURI;
+          this.predict();
           //document.getElementById("photo").class = "photo";
         },
         msg => {
@@ -66,6 +80,38 @@ export default {
         },
         opts
       );
+    },
+    async carregar_modelo() {
+      this.msg = "Carregando Modelo ...";
+      try {
+        this.model = await tf.loadLayersModel("model/model.json");
+      } catch (error) {
+        alert(error);
+      }
+      this.msg = "Modelo Carregado";
+    },
+    predict() {
+      this.msg = "Processando...";
+      this.valueToPredict = document.getElementById("photo");
+      let arrInput = tf.browser.fromPixels(this.valueToPredict); //
+      this.valueToPredict = tf.image
+        .resizeBilinear(arrInput, [224, 224])
+        .reshape([1, 224, 224, 3]);
+      let valor = "";
+      try {
+        valor = this.model.predict(this.valueToPredict);
+      } catch (error) {
+        alert(error);
+      }
+
+      //this.predictedValue = this.labels[valor.argMax(-1).dataSync()[0]];
+      // let pcentCovid = (valor.dataSync()[0] * 100).toFixed(4);
+      //let pcentNormal = (valor.dataSync()[1] * 100).toFixed(4);
+      this.msg =
+        this.labels[valor.argMax(-1).dataSync()[0]] +
+        ": " +
+        (valor.argMax(-1).dataSync()[0] * 100).toFixed(4) +
+        "%";
     }
   }
 };
