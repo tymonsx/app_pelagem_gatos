@@ -2,14 +2,18 @@
   <q-layout>
     <q-page class="">
       <div class="full-width text-center q-ma-sm">
-        <img
-          src="~assets/quasar-logo-full.svg"
-          alt="image"
-          id="photo"
-          class="photo"
-        />
+        <img :src="img" alt="image" id="photo" class="photo" />
       </div>
-
+      <div class="full-width text-center q-ma-sm">
+        <q-file
+          class="QFileGato"
+          label="selecione uma foto de gato"
+          outlined
+          v-model="file"
+          @input="carregaImagem"
+          ><template v-slot:prepend> </template>
+        </q-file>
+      </div>
       <div id="divBotoes" class="full-width text-center">
         <q-btn id="botaoTirarFoto" color="primary" @click="takephoto()"
           >Tirar foto</q-btn
@@ -30,12 +34,16 @@
   text-align: center;
   height: 200px;
 }
+.QFileGato {
+  width: 250px;
+  display: inline-block;
+}
 </style>
 
 <script>
 import * as tf from "@tensorflow/tfjs";
 import { fetch as fetchPolyfill } from "whatwg-fetch";
-
+import gatoExemplo from "assets/quasar-logo-full.svg";
 export default {
   data() {
     return {
@@ -55,7 +63,9 @@ export default {
         "Tabby Spotted",
         "Tortoiseshell"
       ],
-      valueToPredict: ""
+      valueToPredict: "",
+      img: gatoExemplo,
+      file: null
     };
   },
   mounted() {
@@ -152,6 +162,16 @@ export default {
         this.msg +=
           " " + index + " - " + percent + "% - " + this.labels[index] + "\n";
       });
+    },
+    carregaImagem() {
+      this.predictedValue = "";
+      this.img = URL.createObjectURL(this.file);
+
+      console.log(this.file);
+      this.msg = "Reconhecendo pelagem aguarde...";
+      setTimeout(() => {
+        this.predict();
+      }, 2000);
     }
   }
 };
