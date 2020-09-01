@@ -9,8 +9,8 @@
         <q-card>
           <q-card-section class="text-dark text-justify">
             <p>
-              O logo presente no canto superior direito do aplicativo está
-              disponível no site <b>Freepik</b> através do link
+              O logo presente no canto superior esquerdo do aplicativo está
+              disponível no site <b>Freepik</b> através dos links
               <a
                 href="#"
                 v-on:click="abrirLink('https://www.freepik.com/vectors/logo')"
@@ -98,6 +98,121 @@
               realizadas pelo <b>Sr. Raphael Hendrigo de Souza Gonçalves</b>,
               Analista de Tecnologia da Informação no Departamento de
               Informática em Saúde da UNIFESP.
+            </p>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+      <q-expansion-item
+        label="Explicação sobre tipos de pelagem"
+        group="sobre"
+        class="bg-secondary"
+      >
+        <q-card>
+          <q-card-section class="text-dark text-justify">
+            <p>
+              Este aplicativo possui a capacidade de identificar 9 tipos de
+              pelagens diferentes. Segue abaixo uma breve explicação sobre cada
+              uma delas.
+            </p>
+            <p>
+              <b>Bicolor:</b> geralmente possuem uma cor predominamente branca.
+              A cor secundária pode estar presente em formato de manchas
+              aleatórias ('magpie'), manchas aleatórias com cauda colorida
+              ('harlequin') ou manchas coloridas na cabeça e nas costas (van).
+            </p>
+            <p>
+              <b>Hairless:</b> possuem este nome pela quase completa ausência de
+              pelagem.
+            </p>
+            <p>
+              <b>Point color:</b> possuem coloração diferente da cor primária
+              somente na cabeça, patas e cauda.
+            </p>
+            <p>
+              <b>Solid color:</b> possuem somente uma cor por toda a sua
+              extensão.
+            </p>
+            <p>
+              <b>Tabby classic:</b>possuem listras largas na cor preta e
+              geralmente sua cor predominamente é mais clara. Há também a
+              presença de uma espécie de 'redemoinho' em sua pelagem.
+            </p>
+            <p>
+              <b>Tabby mackerel:</b> possuem listras verticais e mais finas que
+              as do 'tabby classic'. Sua principal característica é um desenho
+              em formato de 'M' no meio de sua testa.
+            </p>
+            <p>
+              <b>Tabby spotted:</b> ao invés da presença de listras, ocorre a
+              aparição de faixas em formato arredondado.
+            </p>
+            <p>
+              <b>Tortoise shell:</b> possuem esse nome pois sua cor e formato
+              assemelham-se com a dos casos de tartarugas. A combinação de cores
+              mais comum nesse tipo de gato é a caramelo-preto.
+            </p>
+            <p>
+              <b>Calico:</b> com bastantes semelhanças ao tortoise shell, sua
+              principal diferença é a presença da tonalidade branca.
+            </p>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+      <q-expansion-item label="Links externos" group="sobre">
+        <q-card>
+          <q-card-section class="text-dark text-justify">
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink('https://keras.io/api/applications/mobilenet/')
+                "
+                >Documentação MobileNet V2</a
+              >
+            </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://www.kaggle.com/zippyz/cats-and-dogs-breeds-classification-oxford-dataset'
+                  )
+                "
+                >Dataset de raças de gatos e cachorros - Oxford</a
+              >
+            </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://meowbarkers.wordpress.com/2015/08/30/tabby-patterns-and-colors-cats/'
+                  )
+                "
+                >Links sobre padrões e cores dos gatos "tabby"</a
+              >
+            </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://www.omlet.us/guide/cats/choosing_the_right_cat_for_you/cat_coat_types'
+                  )
+                "
+                >Links sobre tipos de pelagens de gatos</a
+              >
+            </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://silvershorthairs.com/2017/09/23/featured-content/'
+                  )
+                "
+                >Links sobre tipos de gatos "tabby"</a
+              >
             </p>
           </q-card-section>
         </q-card>
