@@ -1,6 +1,6 @@
 <template>
   <q-layout>
-    <q-page class="">
+    <q-page>
       <div class="full-width text-center q-ma-sm">
         <img :src="img" alt="image" id="photo" class="photo" />
       </div>
@@ -19,34 +19,40 @@
           >Tirar foto</q-btn
         ><br />
         <div id="msg" v-html="msg" class="textoPredito"></div>
-        <div
-          id="explicacaoPelagem"
-          v-html="explicacaoPelagem"
-          style="text-align:center;"
-        ></div>
-        <q-list id="listaCompletaProbabilidades">
-          <q-expansion-item
-            label="Lista completa das probabilidades"
-            group="listaProbabilidades"
-            class="bg-secondary"
-            style="text-align:left;"
-          >
-            <q-card>
-              <div
-                v-html="listaCompletaProbabiblidades"
-                style="margin-left:5%;"
-              ></div>
-            </q-card>
-          </q-expansion-item>
-        </q-list>
+        <div id="explicacaoPelagens">
+          <tabbySpotted v-show="explicacaoTabbySpotted" />
+          <tabbyMackerel v-show="explicacaoTabbyMackerel" />
+          <tabbyClassic v-show="explicacaoTabbyClassic" />
+          <solidColor v-show="explicacaoSolidColor" />
+          <pointColor v-show="explicacaoPointColor" />
+          <hairless v-show="explicacaoHairless" />
+          <bicolor v-show="explicacaoBicolor" />
+          <calico v-show="explicacaoCalico" />
+          <tortoiseShell v-show="explicacaoTortoiseShell" />
+        </div>
       </div>
+      <q-list id="listaCompletaProbabilidades">
+        <q-expansion-item
+          label="Lista completa das probabilidades"
+          group="listaProbabilidades"
+          class="bg-secondary"
+          style="text-align:left;"
+        >
+          <q-card>
+            <div
+              v-html="listaCompletaProbabiblidades"
+              style="margin-left:5%;"
+            ></div>
+          </q-card>
+        </q-expansion-item>
+      </q-list>
     </q-page>
   </q-layout>
 </template>
 <style scoped>
 .photo {
-  height: 250px;
-  width: 250px;
+  height: 200px;
+  width: 200px;
 }
 .textoPredito {
   white-space: pre-wrap;
@@ -54,7 +60,7 @@
   height: 30px;
 }
 .QFileGato {
-  width: 250px;
+  width: 200px;
   display: inline-block;
 }
 </style>
@@ -63,6 +69,15 @@
 import * as tf from "@tensorflow/tfjs";
 import { fetch as fetchPolyfill } from "whatwg-fetch";
 import gatoExemplo from "assets/quasar-logo-full.svg";
+import tabbySpotted from "components/TabbySpotted.vue";
+import tabbyMackerel from "components/TabbyMackerel.vue";
+import tabbyClassic from "components/TabbyClassic.vue";
+import solidColor from "components/SolidColor.vue";
+import pointColor from "components/PointColor.vue";
+import hairless from "components/Hairless.vue";
+import bicolor from "components/Bicolor.vue";
+import calico from "components/Calico.vue";
+import tortoiseShell from "components/TortoiseShell.vue";
 export default {
   data() {
     return {
@@ -85,7 +100,15 @@ export default {
       valueToPredict: "",
       img: gatoExemplo,
       file: null,
-      explicacaoPelagem: "",
+      explicacaoTabbySpotted: false,
+      explicacaoTabbyMackerel: false,
+      explicacaoTabbyClassic: false,
+      explicacaoSolidColor: false,
+      explicacaoPointColor: false,
+      explicacaoHairless: false,
+      explicacaoBicolor: false,
+      explicacaoCalico: false,
+      explicacaoTortoiseShell: false,
       listaCompletaProbabiblidades: ""
     };
   },
@@ -94,6 +117,16 @@ export default {
     try {
       window.fetch = fetchPolyfill;
       this.carregar_modelo();
+
+      this.explicacaoTabbySpotted = false;
+      this.explicacaoTabbyMackerel = false;
+      this.explicacaoTabbyClassic = false;
+      this.explicacaoSolidColor = false;
+      this.explicacaoPointColor = false;
+      this.explicacaoHairless = false;
+      this.explicacaoBicolor = false;
+      this.explicacaoCalico = false;
+      this.explicacaoTortoiseShell = false;
     } catch (error) {
       alert(error);
     }
@@ -179,40 +212,31 @@ export default {
 
       switch (valor.argMax(-1).dataSync()[0]) {
         case 0:
-          this.explicacaoPelagem =
-            "Bicolor: geralmente possuem uma cor predominamente branca. A cor secundária pode estar presente em formato de manchas aleatórias ('magpie'), manchas aleatórias com cauda colorida ('harlequin') ou manchas coloridas na cabeça e nas costas (van).";
+          this.explicacaoBicolor = true;
           break;
         case 1:
-          this.explicacaoPelagem =
-            "Calico: com bastantes semelhanças ao tortoise shell, sua principal diferença é a presença da tonalidade branca.";
+          this.explicacaoCalico = true;
           break;
         case 2:
-          this.explicacaoPelagem =
-            "Hairless: possuem este nome pela quase completa ausência de pelagem.";
+          this.explicacaoHairless = true;
           break;
         case 3:
-          this.explicacaoPelagem =
-            "Point color: possuem coloração diferente da cor primária somente na cabeça, patas e cauda.";
+          this.explicacaoPointColor = true;
           break;
         case 4:
-          this.explicacaoPelagem =
-            "Solid color: possuem somente uma cor por toda a sua extensão.";
+          this.explicacaoSolidColor = true;
           break;
         case 5:
-          this.explicacaoPelagem =
-            "Tabby classic: possuem listras largas na cor preta e geralmente sua cor predominamente é mais clara. Há também a presença de uma espécie de 'redemoinho' em sua pelagem.";
+          this.explicacaoTabbyClassic = true;
           break;
         case 6:
-          this.explicacaoPelagem =
-            "Tabby mackerel: possuem listras verticais e mais finas que as do 'tabby classic'. Sua principal característica é um desenho em formato de 'M' no meio de sua testa.";
+          this.explicacaoTabbyMackerel = true;
           break;
         case 7:
-          this.explicacaoPelagem =
-            "Tabby spotted: ao invés da presença de listras, ocorre a aparição de faixas em formato arredondado.";
+          this.explicacaoTabbySpotted = true;
           break;
         case 8:
-          this.explicacaoPelagem =
-            "Tortoise shell: possuem esse nome pois sua cor e formato assemelham-se com a dos casos de tartarugas. A combinação de cores mais comum nesse tipo de gato é a caramelo-preto.";
+          this.explicacaoTortoiseShell = false;
           break;
       }
 
@@ -232,6 +256,17 @@ export default {
         this.predict();
       }, 2000);
     }
+  },
+  components: {
+    tabbySpotted,
+    tabbyMackerel,
+    tabbyClassic,
+    solidColor,
+    pointColor,
+    hairless,
+    bicolor,
+    calico,
+    tortoiseShell
   }
 };
 </script>

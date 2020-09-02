@@ -44,17 +44,27 @@
               realizada a revisão e seleção das melhores imagens coletadas
               através das APIs
             </p>
+            <p>O projeto do robô de captura de imagens está disponível no link: 
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink('https://github.com/tymonsx/Robo-Imagens-Gatos')
+                "
+                >Robô Imagens Gatos</a
+              >
             <p>
               A segunda etapa do projeto foi o treinamento da rede neural em
               Python utilizando o Tensorflow; a rede neural utilizada foi a
-              MobileNet v2. O próximo passo foi a conversão do modelo gerado no
-              formato H5 para os formatos "JSON" e ".bin" (comando
-              <b>"tensorflowjs_wizard"</b> no Anaconda). Por último, foi criado
-              um aplicativo utilizando as tecnologias VueJS, Quasar e Cordova.
+              MobileNet v2.
             </p>
             <p>
+              O próximo passo foi a conversão do modelo gerado no
+              formato H5 para os formatos "JSON" e ".bin" (comando
+              <b>"tensorflowjs_wizard"</b> no Anaconda)
+            </p>
+             <p>
               O modelo salvo em formato h5 está disponível para consulta através
-              do seguinte link
+              do seguinte link:
               <a
                 href="#"
                 v-on:click="
@@ -63,8 +73,8 @@
                 >Modelo H5</a
               >
             </p>
-            <p>
-              O projeto no Quasar está disponível para consulta através do
+            <p>Por último, foi criado um aplicativo utilizando as tecnologias VueJS, Quasar e Cordova.</p>
+            <p>O projeto no Quasar está disponível para consulta através do
               seguinte link:
               <a
                 href="#"
@@ -87,18 +97,6 @@
                 >Developing Cordova Apps - Preparation</a
               >
             </p>
-            <p>
-              A disponibilização dos arquivos no Github bem como a supervisão e
-              elaboração do projeto foram realizadas pelo
-              <b>Sr. Antonio Carlos da Silva Júnior</b>, Analista de Tecnologia
-              da Informação no Departamento de Informática em Saúde da UNIFESP.
-            </p>
-            <p>
-              A revisão e seleção das imagens coletadas pelas APIs foram
-              realizadas pelo <b>Sr. Raphael Hendrigo de Souza Gonçalves</b>,
-              Analista de Tecnologia da Informação no Departamento de
-              Informática em Saúde da UNIFESP.
-            </p>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -115,45 +113,15 @@
               uma delas.
             </p>
             <p>
-              <b>Bicolor:</b> geralmente possuem uma cor predominamente branca.
-              A cor secundária pode estar presente em formato de manchas
-              aleatórias ('magpie'), manchas aleatórias com cauda colorida
-              ('harlequin') ou manchas coloridas na cabeça e nas costas (van).
-            </p>
-            <p>
-              <b>Hairless:</b> possuem este nome pela quase completa ausência de
-              pelagem.
-            </p>
-            <p>
-              <b>Point color:</b> possuem coloração diferente da cor primária
-              somente na cabeça, patas e cauda.
-            </p>
-            <p>
-              <b>Solid color:</b> possuem somente uma cor por toda a sua
-              extensão.
-            </p>
-            <p>
-              <b>Tabby classic:</b>possuem listras largas na cor preta e
-              geralmente sua cor predominamente é mais clara. Há também a
-              presença de uma espécie de 'redemoinho' em sua pelagem.
-            </p>
-            <p>
-              <b>Tabby mackerel:</b> possuem listras verticais e mais finas que
-              as do 'tabby classic'. Sua principal característica é um desenho
-              em formato de 'M' no meio de sua testa.
-            </p>
-            <p>
-              <b>Tabby spotted:</b> ao invés da presença de listras, ocorre a
-              aparição de faixas em formato arredondado.
-            </p>
-            <p>
-              <b>Tortoise shell:</b> possuem esse nome pois sua cor e formato
-              assemelham-se com a dos casos de tartarugas. A combinação de cores
-              mais comum nesse tipo de gato é a caramelo-preto.
-            </p>
-            <p>
-              <b>Calico:</b> com bastantes semelhanças ao tortoise shell, sua
-              principal diferença é a presença da tonalidade branca.
+              <bicolor />
+              <hairless />
+              <pointColor />
+              <solidColor />
+              <tabbyClassic />
+              <tabbyMackerel />
+              <tabbySpotted/>
+              <tortoiseShell />
+              <calico />
             </p>
           </q-card-section>
         </q-card>
@@ -214,6 +182,44 @@
                 >Links sobre tipos de gatos "tabby"</a
               >
             </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://commons.wikimedia.org/wiki/File:Cat_pattern_-_Bicolor_(french).svg'
+                  )
+                "
+                >Links sobre tipos de gatos "bicolor"</a
+              >
+            </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink('https://github.com/tymonsx/Robo-Imagens-Gatos')
+                "
+                >Github - Robô Imagens Gatos</a
+              >
+            </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink('https://github.com/tymonsx/pelagem_gatos')
+                "
+                >Github - Modelo Pelagem Gatos</a
+              >
+            </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink('https://github.com/tymonsx/app_pelagem_gatos')
+                "
+                >Github - App Pelagem Gatos</a
+              >
+            </p>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -223,6 +229,15 @@
 
 <script>
 import { openURL } from "quasar";
+import tabbySpotted from "components/TabbySpotted.vue";
+import tabbyMackerel from "components/TabbyMackerel.vue";
+import tabbyClassic from "components/TabbyClassic.vue";
+import solidColor from "components/SolidColor.vue";
+import pointColor from "components/PointColor.vue";
+import hairless from "components/Hairless.vue";
+import bicolor from "components/Bicolor.vue";
+import calico from "components/Calico.vue";
+import tortoiseShell from "components/TortoiseShell.vue";
 
 export default {
   name: "Sobre",
@@ -231,6 +246,17 @@ export default {
     abrirLink(url) {
       openURL(url);
     }
+  },
+  components: {
+    tabbySpotted,
+    tabbyMackerel,
+    tabbyClassic,
+    solidColor,
+    pointColor,
+    hairless,
+    bicolor,
+    calico,
+    tortoiseShell
   }
 };
 </script>
