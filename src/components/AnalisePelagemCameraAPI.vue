@@ -45,9 +45,10 @@
 </template>
 <style scoped>
 .photo {
-  height: 250px;
-  width: 250px;
+  height: 244px;
+  width: 244px;
 }
+
 .textoPredito {
   white-space: pre-wrap;
   text-align: center;
@@ -66,8 +67,8 @@ import gatoExemplo from "assets/quasar-logo-full.svg";
 export default {
   data() {
     return {
-      height: 250,
-      width: 250,
+      height: 244,
+      width: 244,
       aspect: 16 / 9,
       msg: "Tire uma foto do gato",
       model: tf.sequential(),
@@ -148,8 +149,9 @@ export default {
       this.valueToPredict = document.getElementById("photo");
       let arrInput = tf.browser.fromPixels(this.valueToPredict); //
       this.valueToPredict = tf.image
-        .resizeBilinear(arrInput, [150, 150])
-        .reshape([1, 150, 150, 3]);
+        .resizeBilinear(arrInput, [224, 224])
+        .reshape([1, 224, 224, 3])
+        .div(tf.scalar(255));
       let valor = "";
       try {
         valor = this.model.predict(this.valueToPredict);
@@ -215,7 +217,7 @@ export default {
             "Tortoise shell: possuem esse nome pois sua cor e formato assemelham-se com a dos casos de tartarugas. A combinação de cores mais comum nesse tipo de gato é a caramelo-preto.";
           break;
       }
-
+      this.listaCompletaProbabiblidades = "";
       valor.dataSync().forEach((element, index) => {
         let percent = (element * 100).toFixed(4);
         this.listaCompletaProbabiblidades +=
