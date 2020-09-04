@@ -1,6 +1,6 @@
 <template>
   <q-layout>
-    <q-page>
+    <q-page style="width:360px; margin:auto">
       <div class="full-width text-center q-ma-sm">
         <img :src="img" alt="image" id="photo" class="photo" />
       </div>
@@ -30,22 +30,22 @@
           <calico v-show="explicacaoCalico" />
           <tortoiseShell v-show="explicacaoTortoiseShell" />
         </div>
+        <q-list id="listaCompletaProbabilidades">
+          <q-expansion-item
+            label="Lista completa das probabilidades"
+            group="listaProbabilidades"
+            class="bg-secondary"
+            style="text-align:left;"
+          >
+            <q-card>
+              <div
+                v-html="listaCompletaProbabiblidades"
+                style="margin-left:5%;"
+              ></div>
+            </q-card>
+          </q-expansion-item>
+        </q-list>
       </div>
-      <q-list id="listaCompletaProbabilidades">
-        <q-expansion-item
-          label="Lista completa das probabilidades"
-          group="listaProbabilidades"
-          class="bg-secondary"
-          style="text-align:left;"
-        >
-          <q-card>
-            <div
-              v-html="listaCompletaProbabiblidades"
-              style="margin-left:5%;"
-            ></div>
-          </q-card>
-        </q-expansion-item>
-      </q-list>
     </q-page>
   </q-layout>
 </template>
@@ -64,12 +64,16 @@
   width: 200px;
   display: inline-block;
 }
+.QFileGato {
+  width: 200px;
+  display: inline-block;
+}
 </style>
 
 <script>
 import * as tf from "@tensorflow/tfjs";
 import { fetch as fetchPolyfill } from "whatwg-fetch";
-import gatoExemplo from "assets/quasar-logo-full.svg";
+import gatoExemplo from "assets/logo.png";
 import tabbySpotted from "components/TabbySpotted.vue";
 import tabbyMackerel from "components/TabbyMackerel.vue";
 import tabbyClassic from "components/TabbyClassic.vue";
@@ -117,17 +121,8 @@ export default {
     // this.width = this.height * this.aspect;
     try {
       window.fetch = fetchPolyfill;
+      this.resetaExplicacao();
       this.carregar_modelo();
-
-      this.explicacaoTabbySpotted = false;
-      this.explicacaoTabbyMackerel = false;
-      this.explicacaoTabbyClassic = false;
-      this.explicacaoSolidColor = false;
-      this.explicacaoPointColor = false;
-      this.explicacaoHairless = false;
-      this.explicacaoBicolor = false;
-      this.explicacaoCalico = false;
-      this.explicacaoTortoiseShell = false;
     } catch (error) {
       alert(error);
     }
@@ -149,16 +144,13 @@ export default {
       navigator.camera.getPicture(
         imgURI => {
           //sucesso
-          //this.msg = imgURI;
-          //this.msg = "Reconhecendo Pelagem Aguarde...";
 
           document.getElementById("photo").src = imgURI;
+          this.resetaExplicacao();
           this.msg = "Reconhecendo pelagem aguarde...";
           setTimeout(() => {
             this.predict();
           }, 2000);
-          //document.getElementById("photo").class = "photo";
-          //this.processando = false;
         },
         msg => {
           //falha
@@ -194,17 +186,6 @@ export default {
 
       //this.predictedValue = this.labels[valor.argMax(-1).dataSync()[0]];
 
-      /*
-      "Bicolor",
-        "Calico",
-        "Hairless",
-        "Point Color",
-        "Solid Color",
-        "Tabby Classic",
-        "Tabby Mackerel",
-        "Tabby Spotted",
-        "Tortoiseshell"
-      */
       this.msg =
         "<b>" +
         this.labels[valor.argMax(-1).dataSync()[0]] +
@@ -238,7 +219,7 @@ export default {
           this.explicacaoTabbySpotted = true;
           break;
         case 8:
-          this.explicacaoTortoiseShell = false;
+          this.explicacaoTortoiseShell = true;
           break;
       }
       this.listaCompletaProbabiblidades = "";
@@ -254,9 +235,21 @@ export default {
 
       console.log(this.file);
       this.msg = "Reconhecendo pelagem aguarde...";
+      this.resetaExplicacao();
       setTimeout(() => {
         this.predict();
       }, 2000);
+    },
+    resetaExplicacao() {
+      this.explicacaoTabbySpotted = false;
+      this.explicacaoTabbyMackerel = false;
+      this.explicacaoTabbyClassic = false;
+      this.explicacaoSolidColor = false;
+      this.explicacaoPointColor = false;
+      this.explicacaoHairless = false;
+      this.explicacaoBicolor = false;
+      this.explicacaoCalico = false;
+      this.explicacaoTortoiseShell = false;
     }
   },
   components: {

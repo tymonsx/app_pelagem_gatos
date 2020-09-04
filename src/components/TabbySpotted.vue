@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page :style-fn="myTweak">
     <p>
       Tabby spotted: ao invés da presença de listras, ocorre a aparição de
       faixas em formato arredondado.
@@ -8,5 +8,11 @@
   </q-page>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    myTweak(offset) {
+      return { minHeight: null };
+    }
+  }
+};
 </script>

@@ -1,12 +1,16 @@
 <template>
-  <q-layout>
-    <q-page>
-      <p>
-        Hairless: possuem este nome pela quase completa ausência de pelagem.
-      </p>
-    </q-page>
-  </q-layout>
+  <q-page :style-fn="myTweak">
+    <p>
+      Hairless: possuem este nome pela quase completa ausência de pelagem.
+    </p>
+  </q-page>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    myTweak(offset) {
+      return { minHeight: null };
+    }
+  }
+};
 </script>

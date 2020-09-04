@@ -1,13 +1,17 @@
 <template>
-  <q-layout>
-    <q-page>
-      <p>
-        Point color: possuem coloração diferente da cor primária somente na
-        cabeça, patas e cauda.
-      </p>
-    </q-page>
-  </q-layout>
+  <q-page :style-fn="myTweak">
+    <p>
+      Point color: possuem coloração diferente da cor primária somente na
+      cabeça, patas e cauda.
+    </p>
+  </q-page>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    myTweak(offset) {
+      return { minHeight: null };
+    }
+  }
+};
 </script>

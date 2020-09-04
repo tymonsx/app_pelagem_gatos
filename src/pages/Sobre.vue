@@ -1,36 +1,10 @@
 <template>
-  <q-layout class="layoutPaginaSobre">
+  <q-layout
+    class="layoutPaginaSobre"
+    style="min-width:360px; max-width:800px; width:80%; margin:auto"
+  >
     <q-list id="listaSobre">
-      <q-expansion-item
-        label="Imagens utilizadas"
-        group="sobre"
-        class="bg-secondary"
-      >
-        <q-card>
-          <q-card-section class="text-dark text-justify">
-            <p>
-              O logo presente no canto superior esquerdo do aplicativo está
-              disponível no site <b>Freepik</b> através dos links
-              <a
-                href="#"
-                v-on:click="abrirLink('https://www.freepik.com/vectors/logo')"
-                >Logo vector created by freepik - www.freepik.com</a
-              >
-              e
-              <a
-                href="#"
-                v-on:click="
-                  abrirLink(
-                    'https://www.freepik.com/free-vector/mascot-logo-with-with-kitten_7088690.htm#page=1&query=cat%20logo&position=6'
-                  )
-                "
-                >Kitten cat logo</a
-              >
-            </p>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-      <q-expansion-item label="Processo de criação" group="sobre">
+        <q-expansion-item label="Processo de criação" group="sobre">
         <q-card>
           <q-card-section class="text-dark text-justify">
             <p>
@@ -40,38 +14,37 @@
             </p>
             <p>
               A primeira etapa do projeto foi a captura de imagens de gatos a
-              partir das APIs do Google Search, Bing e Pixabay. Ao final, foi
-              realizada a revisão e seleção das melhores imagens coletadas
-              através das APIs
+              partir das APIs do Google Search, Bing e Pixabay assim como a base de imagens de raças de cães e gatos de Oxford. 
+              Ao final, foi realizada a revisão e seleção das imagens coletadas
+              através das APIs, para remover imagens com problemas ou que estejam em categorias incorretas.
             </p>
             <p>
               A segunda etapa do projeto foi o treinamento da rede neural em
-              Python utilizando o Tensorflow; a rede neural utilizada foi a
+              Python utilizando o Tensorflow com um processo de tranferência de apresendizado utilizando como base a 
               MobileNet v2. O próximo passo foi a conversão do modelo gerado no
               formato H5 para os formatos "JSON" e ".bin" (comando
-              <b>"tensorflowjs_wizard"</b> no Anaconda). Por último, foi criado
-              um aplicativo utilizando as tecnologias VueJS, Quasar e Cordova.
+              <b>"tensorflowjs_wizard"</b> no Python). Por último, foi criado
+              um aplicativo para android utilizando as tecnologias VueJS, Quasar e Cordova.
             </p>
             <p>
-              O modelo salvo em formato h5 está disponível para consulta através
-              do seguinte link
+              O treino da rede e o modelo salvo estão disponíveis em: 
               <a
                 href="#"
                 v-on:click="
                   abrirLink('https://github.com/tymonsx/pelagem_gatos')
                 "
-                >Modelo H5</a
+                >https://github.com/tymonsx/pelagem_gatos</a
               >
             </p>
             <p>
-              O projeto no Quasar está disponível para consulta através do
+              O projeto de desenvolvimento do app no Quasar está disponível através do
               seguinte link:
               <a
                 href="#"
                 v-on:click="
                   abrirLink('https://github.com/tymonsx/app_pelagem_gatos')
                 "
-                >Projeto Quasar</a
+                >https://github.com/tymonsx/app_pelagem_gatos</a
               >
             </p>
             <p>
@@ -88,10 +61,12 @@
               >
             </p>
             <p>
-              A disponibilização dos arquivos no Github bem como a supervisão e
-              elaboração do projeto foram realizadas pelo
-              <b>Sr. Antonio Carlos da Silva Júnior</b>, Analista de Tecnologia
-              da Informação no Departamento de Informática em Saúde da UNIFESP.
+             Este projeto foi realizado pela equipe de desenvolvimento do Departamento de Informática em Saúde - EPM - UNIFESP
+              <ul>
+                <li>Antonio Carlos da Silva Junior: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
+                <li>Raphael Hendrigo de Souza Gonçalves: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
+                <li>Ivan Calixto Ribeiro: Técnico de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
+                </ul>
             </p>
             <p>
               A revisão e seleção das imagens coletadas pelas APIs foram
@@ -108,53 +83,16 @@
         class="bg-secondary"
       >
         <q-card>
-          <q-card-section class="text-dark text-justify">
-            <p>
-              Este aplicativo possui a capacidade de identificar 9 tipos de
-              pelagens diferentes. Segue abaixo uma breve explicação sobre cada
-              uma delas.
-            </p>
-            <p>
-              <b>Bicolor:</b> geralmente possuem uma cor predominamente branca.
-              A cor secundária pode estar presente em formato de manchas
-              aleatórias ('magpie'), manchas aleatórias com cauda colorida
-              ('harlequin') ou manchas coloridas na cabeça e nas costas (van).
-            </p>
-            <p>
-              <b>Hairless:</b> possuem este nome pela quase completa ausência de
-              pelagem.
-            </p>
-            <p>
-              <b>Point color:</b> possuem coloração diferente da cor primária
-              somente na cabeça, patas e cauda.
-            </p>
-            <p>
-              <b>Solid color:</b> possuem somente uma cor por toda a sua
-              extensão.
-            </p>
-            <p>
-              <b>Tabby classic:</b>possuem listras largas na cor preta e
-              geralmente sua cor predominamente é mais clara. Há também a
-              presença de uma espécie de 'redemoinho' em sua pelagem.
-            </p>
-            <p>
-              <b>Tabby mackerel:</b> possuem listras verticais e mais finas que
-              as do 'tabby classic'. Sua principal característica é um desenho
-              em formato de 'M' no meio de sua testa.
-            </p>
-            <p>
-              <b>Tabby spotted:</b> ao invés da presença de listras, ocorre a
-              aparição de faixas em formato arredondado.
-            </p>
-            <p>
-              <b>Tortoise shell:</b> possuem esse nome pois sua cor e formato
-              assemelham-se com a dos casos de tartarugas. A combinação de cores
-              mais comum nesse tipo de gato é a caramelo-preto.
-            </p>
-            <p>
-              <b>Calico:</b> com bastantes semelhanças ao tortoise shell, sua
-              principal diferença é a presença da tonalidade branca.
-            </p>
+          <q-card-section class="text-dark text-center">
+            <tabbySpotted />
+            <tabbyMackerel />
+            <tabbyClassic />
+            <solidColor />
+            <pointColor />
+            <hairless />
+            <bicolor />
+            <calico />
+            <tortoiseShell />
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -223,7 +161,15 @@
 
 <script>
 import { openURL } from "quasar";
-
+import tabbySpotted from "components/TabbySpotted.vue";
+import tabbyMackerel from "components/TabbyMackerel.vue";
+import tabbyClassic from "components/TabbyClassic.vue";
+import solidColor from "components/SolidColor.vue";
+import pointColor from "components/PointColor.vue";
+import hairless from "components/Hairless.vue";
+import bicolor from "components/Bicolor.vue";
+import calico from "components/Calico.vue";
+import tortoiseShell from "components/TortoiseShell.vue";
 export default {
   name: "Sobre",
 
@@ -231,6 +177,17 @@ export default {
     abrirLink(url) {
       openURL(url);
     }
+  },
+  components: {
+    tabbySpotted,
+    tabbyMackerel,
+    tabbyClassic,
+    solidColor,
+    pointColor,
+    hairless,
+    bicolor,
+    calico,
+    tortoiseShell
   }
 };
 </script>

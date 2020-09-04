@@ -1,14 +1,15 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="q-my-sm">
         <img
-          src="~assets/kitten_cat_logo.jpg"
+          src="~assets/logo.png"
           alt="Logo Pelagem Gatos"
           id="logoPelagemGatos"
           clickable
           v-ripple
           @click="$router.replace('/')"
+          style="width:60px"
         />
         <q-toolbar-title
           id="tituloGeral"

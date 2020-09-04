@@ -1,13 +1,17 @@
 <template>
-  <q-layout>
-    <q-page>
-      <p>
-        Calico: com bastantes semelhanças ao tortoise shell, sua principal
-        diferença é a presença da tonalidade branca.
-      </p>
-    </q-page>
-  </q-layout>
+  <q-page :style-fn="myTweak">
+    <p>
+      Calico: com bastantes semelhanças ao tortoise shell, sua principal
+      diferença é a presença da tonalidade branca.
+    </p>
+  </q-page>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    myTweak(offset) {
+      return { minHeight: null };
+    }
+  }
+};
 </script>
