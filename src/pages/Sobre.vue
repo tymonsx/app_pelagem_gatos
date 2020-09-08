@@ -66,7 +66,11 @@
                 <li>Antonio Carlos da Silva Junior: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
                 <li>Raphael Hendrigo de Souza Gonçalves: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
                 <li>Ivan Calixto Ribeiro: Técnico de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
-                </ul>
+              </ul>
+              Colaboração internacional Trinity College Dublin - Institute of Neuroscience
+              <ul>
+                <li>Dr. Matheus Cafalchio</li>
+              </ul>
             </p>
             <p>
               A revisão e seleção das imagens coletadas pelas APIs foram
