@@ -4,6 +4,19 @@
     style="min-width:360px; max-width:800px; width:80%; margin:auto"
   >
     <q-list id="listaSobre">
+        <q-expansion-item
+            label="Tutorial sobre como bater a foto"
+            group="sobre"
+            class="bg-secondary"
+          >
+          <q-card>
+            <q-card-section class="text-dark text-center">
+              <p class="text-justify">O gato deve estar enquadrado de corpo inteiro, sozinho e não pode estar de barriga para cima. A foto deve ser feita com iluminação branca. Desta forma, é garantido que todas as características da pelagem sejam capturas na foto sem alteração de cor.</p>
+              <exemploFotosCorretas /><br>
+              <exemploFotosIncorretas />
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
         <q-expansion-item label="Processo de criação" group="sobre">
         <q-card>
           <q-card-section class="text-dark text-justify">
@@ -71,12 +84,6 @@
               <ul>
                 <li>Dr. Matheus Cafalchio</li>
               </ul>
-            </p>
-            <p>
-              A revisão e seleção das imagens coletadas pelas APIs foram
-              realizadas pelo <b>Sr. Raphael Hendrigo de Souza Gonçalves</b>,
-              Analista de Tecnologia da Informação no Departamento de
-              Informática em Saúde da UNIFESP.
             </p>
           </q-card-section>
         </q-card>
@@ -162,7 +169,12 @@
     </q-list>
   </q-layout>
 </template>
-
+<style>
+  .exemploFotos {
+    width: 200px;
+    display: inline-block;
+  }
+</style>
 <script>
 import { openURL } from "quasar";
 import tabbySpotted from "components/TabbySpotted.vue";
@@ -174,6 +186,9 @@ import hairless from "components/Hairless.vue";
 import bicolor from "components/Bicolor.vue";
 import calico from "components/Calico.vue";
 import tortoiseShell from "components/TortoiseShell.vue";
+import exemploFotosIncorretas from "components/ExemploFotosIncorretas.vue";
+import exemploFotosCorretas from "components/ExemploFotosCorretas.vue";
+
 export default {
   name: "Sobre",
 
@@ -191,7 +206,9 @@ export default {
     hairless,
     bicolor,
     calico,
-    tortoiseShell
+    tortoiseShell,
+    exemploFotosIncorretas,
+    exemploFotosCorretas
   }
 };
 </script>
