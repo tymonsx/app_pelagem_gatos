@@ -1,9 +1,9 @@
 <template>
   <q-page :style-fn="myTweak">
     <p>
-      Tortoiseshell: possuem esse nome pois sua cor e formato assemelham-se com
-      a dos casos de tartarugas. A combinação de cores mais comum nesse tipo de
-      gato é a caramelo-preto.
+      Tortoiseshell: Possuem trechos em sua pelagem com gradações de vermelho e
+      preto. O tamanho destes trechos podem variar de um salpicado até grandes
+      áreas de uma única cor. Estas áreas costumam ter um formato assimétrico.
     </p>
   </q-page>
 </template>

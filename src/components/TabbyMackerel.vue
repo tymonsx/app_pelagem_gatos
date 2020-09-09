@@ -1,10 +1,11 @@
 <template>
   <q-page :style-fn="myTweak">
     <p>
-      Tabby mackerel: possuem listras verticais e mais finas que as do "tabby
-      classic".
+      Tabby mackerel: Possuem um padrão de listras delgadas levemente curvas na
+      lateral do corpo ou quebradas em segmentos de manchas. Os gatos tabby
+      possuem uma marca característica em formato de "M" na testa.
     </p>
-    <img src="~assets/tabby_mackerel_pattern.png" style="width: 45%;" />
+    <!--<img src="~assets/tabby_mackerel_pattern.png" style="width: 45%;" />-->
   </q-page>
 </template>
 <script>

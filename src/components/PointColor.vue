@@ -1,8 +1,9 @@
 <template>
   <q-page :style-fn="myTweak">
     <p>
-      Point color: possuem coloração diferente da cor primária somente na
-      cabeça, patas e cauda.
+      Point color: São caracterizados por possuirem cores mais escuras na face,
+      orelha, pés e cauda e uma versão mais clara da mesma cor no resto do corpo
+      e também podem possuir um pouco de branco.
     </p>
   </q-page>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <q-page :style-fn="myTweak">
     <p>
-      Hairless: possuem este nome pela quase completa ausência de pelagem.
+      Hairless: Possuem este nome pela falta de pêlos.
     </p>
   </q-page>
 </template>

@@ -1,12 +1,10 @@
 <template>
   <q-page :style-fn="myTweak">
     <p>
-      Bicolor: geralmente possuem uma cor predominamente branca. A cor
-      secundária pode estar presente em formato de manchas aleatórias
-      ('magpie'), manchas aleatórias com cauda colorida ('harlequin') ou manchas
-      coloridas na cabeça e nas costas (van).
+      Bicolor: São gatos que possuem pelagem de uma cor combinada com outra cor.
+      A forma como esta combinação está presente no corpo pode variar
     </p>
-    <img src="~assets/bicolor_patterns.png" style="width:90%;" />
+    <!--<img src="~assets/bicolor_patterns.png" style="width:90%;" />-->
   </q-page>
 </template>
 <script>

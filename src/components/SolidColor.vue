@@ -1,7 +1,8 @@
 <template>
   <q-page :style-fn="myTweak">
     <p>
-      Solid color: possuem somente uma cor por toda a sua extensão.
+      Solid color: Caracterizado por possuir uma cor única por toda a extensão
+      do corpo.
     </p>
   </q-page>
 </template>

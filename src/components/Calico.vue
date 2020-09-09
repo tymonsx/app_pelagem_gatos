@@ -1,8 +1,8 @@
 <template>
   <q-page :style-fn="myTweak">
     <p>
-      Calico: com bastantes semelhanças ao tortoise shell, sua principal
-      diferença é a presença da tonalidade branca.
+      Calico: Possuem de 25% a 75% da cor branca e combinação de laranja e
+      preto. Porém podem variar para trechos de creme e cinza.
     </p>
   </q-page>
 </template>
