@@ -64,8 +64,8 @@
   width: 200px;
   display: inline-block;
 }
-.QFileGato {
-  width: 200px;
+.exemploGato {
+  width: 100px;
   display: inline-block;
 }
 </style>
