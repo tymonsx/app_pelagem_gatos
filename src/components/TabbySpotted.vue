@@ -6,6 +6,8 @@
       formato de "M" na testa.
     </p>
     <img src="~assets/tabby_spotted.png" class="exemploGato" />
+    <img src="~assets/tabby_spotted2.png" class="exemploGato" />
+    <img src="~assets/tabby_spotted3.png" class="exemploGato" />
   </q-page>
 </template>
 <script>
