@@ -5,7 +5,7 @@
       que a lateral do corpo lembre um alvo. Os gatos tabby possuem uma marca
       característica em formato de "M" na testa.
     </p>
-    <!--<img src="~assets/tabby_classic_pattern.png" style="width: 45%;" />-->
+    <img src="~assets/tabby_classic.png" class="exemploGato" />
   </q-page>
 </template>
 <script>

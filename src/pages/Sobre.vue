@@ -163,6 +163,18 @@
                 >Links sobre tipos de gatos "tabby"</a
               >
             </p>
+            <p>
+              <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'http://cedarseed.com/portfolio/housecat-colors/'
+                  )
+                "
+                >Links sobre combinações e tipos de pelagem - Joumana Medlej</a
+              >
+            </p>
+            
           </q-card-section>
         </q-card>
       </q-expansion-item>

@@ -5,7 +5,9 @@
       lateral do corpo ou quebradas em segmentos de manchas. Os gatos tabby
       possuem uma marca característica em formato de "M" na testa.
     </p>
-    <!--<img src="~assets/tabby_mackerel_pattern.png" style="width: 45%;" />-->
+    <img src="~assets/tabby_mackerel1.png" class="exemploGato" />
+    <img src="~assets/tabby_mackerel2.png" class="exemploGato" />
+    <img src="~assets/tabby_mackerel3.png" class="exemploGato" />
   </q-page>
 </template>
 <script>

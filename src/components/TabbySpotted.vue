@@ -5,7 +5,7 @@
       manchas arredondadas. Os gatos tabby possuem uma marca característica em
       formato de "M" na testa.
     </p>
-    <!--<img src="~assets/tabby_spotted_pattern.png" style="width:45%;" />-->
+    <img src="~assets/tabby_spotted.png" class="exemploGato" />
   </q-page>
 </template>
 <script>
