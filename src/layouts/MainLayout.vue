@@ -1,37 +1,51 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-header elevated>
+  <q-layout view="lHh Lpr lFf">
+    <q-header reveal bordered class="bg-primary text-white">
+      <q-bar class="q-electron-drag electron-only">
+        <div>appPelagemGatos</div>
+
+        <q-space></q-space>
+
+        <q-btn dense flat icon="minimize" @click="minimize"></q-btn>
+        <q-btn dense flat icon="crop_square" @click="maximize"></q-btn>
+        <q-btn dense flat icon="close" @click="closeApp"></q-btn>
+      </q-bar>
       <q-toolbar>
-        <img
-          src="~assets/tabby_face.png"
-          alt="Logo Pelagem Gatos"
-          id="logoPelagemGatos"
-          clickable
-          v-ripple
-          @click="$router.replace('/')"
-          style="width:70px"
-        />
         <q-toolbar-title
-          id="tituloGeral"
           clickable
           v-ripple
           @click="$router.replace('/')"
+          active-class="my-menu-link"
         >
-          App Pelagem
+          <div style="width:80px; float:left; ">
+            <img
+              style="display:block; margin-right:auto;  "
+              width="70px"
+              src="~assets/tabby_face.png"
+            />
+          </div>
+          <div
+            style="width:50%; margin-left:50%; margin-right:50%; word-break: break-all; padding-top: 20px;"
+          >
+            <span style="font-size:18px;">App Pelagem</span>
+            <br />
+          </div>
         </q-toolbar-title>
-        <q-btn id="botaoSobre" icon="info" to="/sobre" flat />
+
+        <q-btn icon="info" to="/sobre" flat />
       </q-toolbar>
     </q-header>
 
-    <q-footer>
+    <q-footer elevated>
       <q-toolbar>
         <q-toolbar-title>
-          <div>
-            <img id="logoEpm" src="~assets/logo_epm.png" />
+          <div style="min-width:40px;width:10%; float:left; ">
+            <img
+              style="margin-top: 5px; "
+              width="40px"
+              src="~assets/logo_epm.png"
+            />
           </div>
-          <!--<div
-            class="text-right"
-          >-->
           <div
             class="desktop-only text-caption text-center float-left"
             style="width:80%"
@@ -39,28 +53,53 @@
             Rua Botucatu, 862-Térreo, Vila Clementino, São Paulo (SP). Cep:
             04023-062 - Email: contato@dis.epm.br - CNPJ:60.453.032/0001-74
           </div>
-          <img
-            id="logoUnifesp"
+          <div
             class="text-right"
-            src="~assets/logo_unifesp.png"
-          />
-          <!--</div>-->
+            style="min-width:75px; width:10%;float:right;"
+          >
+            <img
+              style="margin-top: 5px; "
+              width="75px"
+              src="~assets/logo_unifesp.png"
+            />
+          </div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
     <q-page-container>
-      <router-view :teste="3" />
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-//import EssentialLink from "components/EssentialLink.vue";
 import Vue from "vue";
 import Vuex from "vuex";
+import { Dialog } from "quasar";
 Vue.use(Vuex);
-
 export default {
-  name: "MainLayout"
+  name: "MainLayout",
+  methods: {
+    minimize() {
+      if (process.env.MODE === "electron") {
+        this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize();
+      }
+    },
+    maximize() {
+      if (process.env.MODE === "electron") {
+        const win = this.$q.electron.remote.BrowserWindow.getFocusedWindow();
+        if (win.isMaximized()) {
+          win.unmaximize();
+        } else {
+          win.maximize();
+        }
+      }
+    },
+    closeApp() {
+      if (process.env.MODE === "electron") {
+        this.$q.electron.remote.BrowserWindow.getFocusedWindow().close();
+      }
+    }
+  }
 };
 </script>

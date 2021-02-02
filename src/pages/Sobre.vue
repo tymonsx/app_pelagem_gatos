@@ -1,13 +1,13 @@
 <template>
-  <q-layout
-    class="layoutPaginaSobre"
-    style="min-width:360px; max-width:800px; width:80%; margin:auto"
-  >
-    <q-list id="listaSobre">
+  <q-page class="flex flex-center">
+    <div class="text-h5 text-primary q-ma-sm">Sobre o Aplicativo</div>
+    <div style="width: 100%; padding-bottom: 135%;">
+      <q-list>
         <q-expansion-item
             label="Tutorial sobre como bater a foto"
-            group="sobre"
-            class="bg-secondary"
+            :group="$q.screen.width > 1000 ? 'a' : 'sobre'"
+            class="bg-secondary text-justify"
+            :default-opened="$q.screen.width > 1000"
           >
           <q-card>
             <q-card-section class="text-dark text-center">
@@ -17,27 +17,31 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
-        <q-expansion-item label="Processo de criação" group="sobre">
+        <q-expansion-item label="Processo de criação" :group="$q.screen.width > 1000 ? 'b' : 'sobre'" :class="$q.screen.width > 1000 ? 'bg-secondary text-justify' : 'text-justify'"
+          :default-opened="$q.screen.width > 1000">
         <q-card>
           <q-card-section class="text-dark text-justify">
+            <p>O AppPelagemGatos consiste em um exemplo de classificação de imagens utilizando rede neural convolucional com transferência de aprendizado (MobileNetV2 - Imagenet).</p>
             <p>
               O aplicativo foi elaborado utilizando as seguintes ferramentas e
-              bibliotecas: Python, TensorflowJS, Tensorflow, Quasar, Vue,
+              bibliotecas: Python, TensorflowJS, Tensorflow, Quasar, VueJS,
               Cordova e Anaconda.
             </p>
             <p>
-              A primeira etapa do projeto foi a captura de imagens de gatos a
-              partir das APIs do Google Search, Bing e Pixabay assim como a base de imagens de raças de cães e gatos de Oxford. 
-              Ao final, foi realizada a revisão e seleção das imagens coletadas
-              através das APIs, para remover imagens com problemas ou que estejam em categorias incorretas.
+              A primeira etapa do projeto foi a construção de 3 robôs para capturar de imagens de gatos utilizando as APIs do Google, Bing e Pixabay, respectivamente.
             </p>
             <p>
-              A segunda etapa do projeto foi o treinamento da rede neural em
-              Python utilizando o Tensorflow com um processo de tranferência de apresendizado utilizando como base a 
-              MobileNet v2. O próximo passo foi a conversão do modelo gerado no
-              formato H5 para os formatos "JSON" e ".bin" (comando
-              <b>"tensorflowjs_wizard"</b> no Python). Por último, foi criado
-              um aplicativo para android utilizando as tecnologias VueJS, Quasar e Cordova.
+              A segunda etapa do projeto foi o treinamento do modelo em
+              Python e o salvamento do mesmo utilizando a extensão H5.
+            </p>
+            <p>O próximo passo foi a conversão
+                do modelo gerado para JSON através do TensorflowJS Converter
+            </p>
+            <p>
+                A quarta etapa foi a importação do modelo JSON para dentro do TensorflowJS e a integração do mesmo com o framework Quasar
+            </p>
+             <p>
+                Por último, foi gerado um aplicativo para a plataforma Android utilizando a tecnologia Cordova que já vem integrada no framework Quasar
             </p>
             <p>
               O treino da rede e o modelo salvo estão disponíveis em: 
@@ -77,8 +81,9 @@
              Este projeto foi realizado pela equipe de desenvolvimento do Departamento de Informática em Saúde - EPM - UNIFESP
               <ul>
                 <li>Antonio Carlos da Silva Junior: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
-                <li>Raphael Hendrigo de Souza Gonçalves: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
                 <li>Ivan Calixto Ribeiro: Técnico de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
+                <li>Raphael Hendrigo de Souza Gonçalves: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
+                <li>Vitor Tonini Machado: Arquivista no Departamento de Informática em Saúde e líder do Escritório de Projetos do DIS</li>
               </ul>
               Colaboração internacional Trinity College Dublin - Institute of Neuroscience
               <ul>
@@ -90,8 +95,9 @@
       </q-expansion-item>
       <q-expansion-item
         label="Explicação sobre tipos de pelagem"
-        group="sobre"
-        class="bg-secondary"
+        :group="$q.screen.width > 1000 ? 'c' : 'sobre'"
+        class="bg-secondary text-justify"
+        :default-opened="$q.screen.width > 1000"
       >
         <q-card>
           <q-card-section class="text-dark text-center">
@@ -107,7 +113,8 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-      <q-expansion-item label="Links externos" group="sobre">
+      <q-expansion-item label="Links externos" :group="$q.screen.width > 1000 ? 'c' : 'sobre'" :class="$q.screen.width > 1000 ? 'bg-secondary text-justify' : 'text-justify'"
+          :default-opened="$q.screen.width > 1000">
         <q-card>
           <q-card-section class="text-dark text-justify">
             <p>
@@ -174,12 +181,12 @@
                 >Links sobre combinações e tipos de pelagem - Joumana Medlej</a
               >
             </p>
-            
           </q-card-section>
         </q-card>
       </q-expansion-item>
     </q-list>
-  </q-layout>
+    </div>
+  </q-page>
 </template>
 <style>
   .exemploFotos {

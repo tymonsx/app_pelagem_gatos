@@ -1,53 +1,66 @@
 <template>
-  <q-layout>
-    <q-page style="width:360px; margin:auto">
-      <div class="full-width text-center q-ma-sm">
-        <img :src="img" alt="image" id="photo" class="photo" />
-      </div>
-      <div class="full-width text-center q-ma-sm">
-        <q-file
-          class="QFileGato"
-          label="selecione uma foto de gato"
-          outlined
-          v-model="file"
-          @input="carregaImagem"
-          ><template v-slot:prepend> </template>
-        </q-file>
-      </div>
-      <div id="divBotoes" class="full-width text-center">
-        <q-btn id="botaoTirarFoto" color="primary" @click="takephoto()"
-          >Tirar foto</q-btn
-        ><br />
-        <div id="msg" v-html="msg" class="textoPredito"></div>
-        <div id="explicacaoPelagens">
-          <tabbySpotted v-show="explicacaoTabbySpotted" />
-          <tabbyMackerel v-show="explicacaoTabbyMackerel" />
-          <tabbyClassic v-show="explicacaoTabbyClassic" />
-          <solidColor v-show="explicacaoSolidColor" />
-          <pointColor v-show="explicacaoPointColor" />
-          <hairless v-show="explicacaoHairless" />
-          <bicolor v-show="explicacaoBicolor" />
-          <calico v-show="explicacaoCalico" />
-          <tortoiseShell v-show="explicacaoTortoiseShell" />
-        </div>
-        <q-list id="listaCompletaProbabilidades">
-          <q-expansion-item
-            label="Lista completa das probabilidades"
-            group="listaProbabilidades"
-            class="bg-secondary"
-            style="text-align:left;"
-          >
-            <q-card>
-              <div
-                v-html="listaCompletaProbabiblidades"
-                style="margin-left:5%;"
-              ></div>
-            </q-card>
-          </q-expansion-item>
-        </q-list>
-      </div>
-    </q-page>
-  </q-layout>
+  <q-page class="flex flex-center">
+    <div class="full-width text-center">
+      <img :src="img" alt="image" id="foto" class="photo" />
+    </div>
+    <div class="full-width text-center">
+      <q-file
+        class="QFileGato"
+        label="selecione uma foto de gato"
+        outlined
+        v-model="file"
+        @input="carregarImagem"
+        ><template v-slot:prepend> </template>
+      </q-file>
+    </div>
+    <div id="divBotoes" class="full-width text-center q-gutter-sm">
+      <q-btn id="botaoTirarFoto" color="primary" @click="tirarFoto()"
+        >Tirar foto</q-btn
+      >
+    </div>
+    <div id="msg" v-html="msg" class="textoPredito"></div>
+    <div id="explicacaoPelagens" class="full-width text-center">
+      <tabbySpotted
+        class="full-width text-center"
+        v-show="explicacaoTabbySpotted"
+      />
+      <tabbyMackerel
+        class="full-width text-center"
+        v-show="explicacaoTabbyMackerel"
+      />
+      <tabbyClassic
+        class="full-width text-center"
+        v-show="explicacaoTabbyClassic"
+      />
+      <solidColor
+        class="full-width text-center"
+        v-show="explicacaoSolidColor"
+      />
+      <pointColor
+        class="full-width text-center"
+        v-show="explicacaoPointColor"
+      />
+      <hairless class="full-width text-center" v-show="explicacaoHairless" />
+      <bicolor class="full-width text-center" v-show="explicacaoBicolor" />
+      <calico class="full-width text-center" v-show="explicacaoCalico" />
+      <tortoiseShell
+        class="full-width text-center"
+        v-show="explicacaoTortoiseShell"
+      />
+    </div>
+    <q-list id="listaCompletaProbabilidades" class="full-width text-center">
+      <q-expansion-item
+        label="Lista completa das probabilidades"
+        group="listaProbabilidades"
+        class="bg-secondary"
+        style="text-align:center;"
+      >
+        <q-card>
+          <div v-html="listaCompletaProbabiblidades"></div>
+        </q-card>
+      </q-expansion-item>
+    </q-list>
+  </q-page>
 </template>
 <style scoped>
 .photo {
@@ -61,11 +74,7 @@
   height: 30px;
 }
 .QFileGato {
-  width: 200px;
-  display: inline-block;
-}
-.exemploGato {
-  width: 100px;
+  width: 244px;
   display: inline-block;
 }
 </style>
@@ -114,21 +123,30 @@ export default {
       explicacaoBicolor: false,
       explicacaoCalico: false,
       explicacaoTortoiseShell: false,
-      listaCompletaProbabiblidades: ""
+      listaCompletaProbabiblidades: "",
+      foto: ""
     };
   },
   mounted() {
-    // this.width = this.height * this.aspect;
     try {
       window.fetch = fetchPolyfill;
-      this.resetaExplicacao();
-      this.carregar_modelo();
+      this.resetarExplicacao();
+      this.carregarModelo();
     } catch (error) {
       alert(error);
     }
   },
   methods: {
-    takephoto() {
+    async carregarModelo() {
+      this.msg = "Carregando Modelo ...";
+      try {
+        this.model = await tf.loadLayersModel("model/model.json");
+      } catch (error) {
+        alert(error);
+      }
+      this.msg = "Modelo Carregado";
+    },
+    tirarFoto() {
       let opts = {
         quality: 100,
         destinationType: Camera.DestinationType.FILE_URI,
@@ -143,35 +161,22 @@ export default {
 
       navigator.camera.getPicture(
         imgURI => {
-          //sucesso
-
-          document.getElementById("photo").src = imgURI;
-          this.resetaExplicacao();
+          document.getElementById("foto").src = imgURI;
+          this.resetarExplicacao();
           this.msg = "Reconhecendo pelagem aguarde...";
           setTimeout(() => {
-            this.predict();
+            this.predizerImagem();
           }, 2000);
         },
         msg => {
-          //falha
           this.msg = msg;
         },
         opts
       );
     },
-    async carregar_modelo() {
-      this.msg = "Carregando Modelo ...";
-      try {
-        this.model = await tf.loadLayersModel("model/model.json");
-      } catch (error) {
-        alert(error);
-      }
-      this.msg = "Modelo Carregado";
-    },
-    predict() {
-      //this.msg = "Processando...";
+    predizerImagem() {
+      this.valueToPredict = document.getElementById("foto");
 
-      this.valueToPredict = document.getElementById("photo");
       let arrInput = tf.browser.fromPixels(this.valueToPredict); //
       this.valueToPredict = tf.image
         .resizeBilinear(arrInput, [224, 224])
@@ -183,8 +188,6 @@ export default {
       } catch (error) {
         alert(error);
       }
-
-      //this.predictedValue = this.labels[valor.argMax(-1).dataSync()[0]];
 
       this.msg =
         "<b>" +
@@ -229,18 +232,18 @@ export default {
           " " + percent + "% - " + this.labels[index] + "<br>";
       });
     },
-    carregaImagem() {
+    carregarImagem() {
       this.predictedValue = "";
       this.img = URL.createObjectURL(this.file);
 
       console.log(this.file);
       this.msg = "Reconhecendo pelagem aguarde...";
-      this.resetaExplicacao();
+      this.resetarExplicacao();
       setTimeout(() => {
-        this.predict();
+        this.predizerImagem();
       }, 2000);
     },
-    resetaExplicacao() {
+    resetarExplicacao() {
       this.explicacaoTabbySpotted = false;
       this.explicacaoTabbyMackerel = false;
       this.explicacaoTabbyClassic = false;
