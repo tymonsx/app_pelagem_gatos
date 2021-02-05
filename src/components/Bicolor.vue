@@ -1,6 +1,10 @@
 <template>
   <q-page :style-fn="myTweak">
-    <p>
+    <p
+      class="text-justify"
+      :class="$q.screen.width > 1000 ? 'text-center' : 'text-justify'"
+      style="margin-left: 0.8%; width:98%;"
+    >
       Bicolor: São gatos que possuem pelagem de uma cor combinada com outra cor.
       A forma como esta combinação está presente no corpo pode variar
     </p>

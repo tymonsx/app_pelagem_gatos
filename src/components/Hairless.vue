@@ -1,6 +1,9 @@
 <template>
   <q-page :style-fn="myTweak">
-    <p>
+    <p
+      :class="$q.screen.width > 1000 ? 'text-center' : 'text-justify'"
+      style="margin-left: 0.8%; width:98%;"
+    >
       Hairless: Possuem este nome pela falta de pêlos.
     </p>
   </q-page>

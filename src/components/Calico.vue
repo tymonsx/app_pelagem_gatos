@@ -1,6 +1,9 @@
 <template>
   <q-page :style-fn="myTweak">
-    <p>
+    <p
+      :class="$q.screen.width > 1000 ? 'text-center' : 'text-justify'"
+      style="margin-left: 0.8%; width:98%;"
+    >
       Calico: Possuem de 25% a 75% da cor branca e combinação de laranja e
       preto. Porém podem variar para trechos de creme e cinza.
     </p>

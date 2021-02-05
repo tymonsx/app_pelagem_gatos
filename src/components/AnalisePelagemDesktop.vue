@@ -6,16 +6,23 @@
         alt="image"
         id="foto"
         class="photo"
+        style="object-fit:cover;"
         v-show="displayFoto"
       />
       <video
         id="video"
         class="desktop-only text-center photo"
+        style="object-fit:cover;"
         v-show="displayVideo"
       >
         Video stream not available.
       </video>
-      <canvas id="canvas" class="photo" v-show="displayCanvas" />
+      <canvas
+        id="canvas"
+        style="object-fit:cover;"
+        class="photo"
+        v-show="displayCanvas"
+      />
     </div>
     <div class="full-width text-center">
       <q-file

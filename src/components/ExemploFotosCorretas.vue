@@ -1,6 +1,6 @@
 <template>
   <q-page :style-fn="myTweak">
-    <p>
+    <p class="text-justify" style="margin-left: 0.8%; width:98%;">
       Exemplos de como bater a foto:
     </p>
     <div class="text-center">

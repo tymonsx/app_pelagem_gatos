@@ -1,6 +1,9 @@
 <template>
   <q-page :style-fn="myTweak">
-    <p>
+    <p
+      :class="$q.screen.width > 1000 ? 'text-center' : 'text-justify'"
+      style="margin-left: 0.8%; width:98%;"
+    >
       Tabby spotted: Caracterizado pela separação das listras dos gatos tabby em
       manchas arredondadas. Os gatos tabby possuem uma marca característica em
       formato de "M" na testa.

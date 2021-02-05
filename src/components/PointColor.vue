@@ -1,6 +1,9 @@
 <template>
   <q-page :style-fn="myTweak">
-    <p>
+    <p
+      :class="$q.screen.width > 1000 ? 'text-center' : 'text-justify'"
+      style="margin-left: 0.8%; width:98%;"
+    >
       Point color: São caracterizados por possuirem cores mais escuras na face,
       orelha, pés e cauda e uma versão mais clara da mesma cor no resto do corpo
       e também podem possuir um pouco de branco.

@@ -75,7 +75,6 @@
 <script>
 import Vue from "vue";
 import Vuex from "vuex";
-import { Dialog } from "quasar";
 Vue.use(Vuex);
 export default {
   name: "MainLayout",
