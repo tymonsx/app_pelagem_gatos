@@ -3,7 +3,8 @@
     <p
       :class="$q.screen.width > 1000 ? 'text-center' : 'text-justify'"
       style="margin-left: 0.8%; width:98%;"
-    >
+    ></p>
+    <p>
       Solid color: Caracterizado por possuir uma cor única por toda a extensão
       do corpo.
     </p>

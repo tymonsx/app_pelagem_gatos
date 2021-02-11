@@ -3,7 +3,7 @@
     <div class="full-width text-center" style="margin-top: 1%;">
       <img :src="img" alt="Imagem selecionada" id="foto" class="photo" />
     </div>
-    <div class="full-width text-center">
+    <div class="text-center">
       <q-file
         class="QFileGato"
         label="Selecione uma foto de gato"
@@ -72,7 +72,7 @@
   width: 224px;
 }
 .QFileGato {
-  width: 22 4px;
+  width: 224px;
   display: inline-block;
 }
 .textoPredito {
@@ -101,7 +101,6 @@ export default {
     return {
       height: 244,
       width: 244,
-      //aspect: 16 / 9,
       msgPredicao: "Tire uma foto do gato",
       modelo: tf.sequential(),
       labels: [
@@ -128,7 +127,6 @@ export default {
       explicacaoCalico: false,
       explicacaoTortoiseShell: false,
       listaCompletaProbabiblidades: ""
-      //foto: ""
     };
   },
   mounted() {
@@ -249,10 +247,8 @@ export default {
       });
     },
     carregarImagem() {
-      //this.predictedValue = "";
       this.img = URL.createObjectURL(this.arquivo);
 
-      //console.log(this.file);
       this.msgPredicao = "Reconhecendo pelagem aguarde...";
       this.limparExplicacao();
       setTimeout(() => {

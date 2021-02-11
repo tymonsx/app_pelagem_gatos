@@ -15,7 +15,7 @@
         style="object-fit:cover;"
         v-show="displayVideo"
       >
-        Video stream not available.
+        Video não disponível.
       </video>
       <canvas
         id="canvas"
@@ -24,13 +24,14 @@
         v-show="displayCanvas"
       />
     </div>
-    <div class="full-width text-center">
+    <div class="text-center">
       <q-file
         class="QFileGato"
         label="selecione uma foto de gato"
         outlined
-        v-model="file"
+        v-model="arquivo"
         @input="carregarImagem"
+        v-show="displayQFile"
         ><template v-slot:prepend> </template>
       </q-file>
     </div>
@@ -59,10 +60,10 @@
         >Encerrar Vídeo</q-btn
       >
     </div>
-    <div id="msg" v-html="msg" class="textoPredito"></div>
+    <div id="msg" v-html="msgPredicao" class="full-width textoPredito"></div>
     <div
       id="explicacaoPelagens"
-      class="full-width text-center"
+      class="full-width"
       v-show="divExplicacaoPelagens"
     >
       <tabbySpotted
@@ -93,19 +94,14 @@
         v-show="explicacaoTortoiseShell"
       />
     </div>
-    <q-list id="listaCompletaProbabilidades" class="full-width text-center">
+    <q-list id="listaCompletaProbabilidades">
       <q-expansion-item
         label="Lista completa das probabilidades"
         group="listaProbabilidades"
         class="full-width bg-secondary"
-        style="text-align:center;"
       >
         <q-card>
-          <div
-            v-html="listaCompletaProbabiblidades"
-            style="margin-left:5px;"
-            class="text-justify"
-          ></div>
+          <div v-html="listaCompletaProbabiblidades" class="full-width"></div>
         </q-card>
       </q-expansion-item>
     </q-list>
@@ -123,7 +119,6 @@
 }
 .QFileGato {
   width: 244px;
-  display: inline-block;
 }
 </style>
 
@@ -145,9 +140,8 @@ export default {
     return {
       height: 244,
       width: 244,
-      aspect: 16 / 9,
-      msg: "Modelo carregado",
-      model: tf.sequential(),
+      msgPredicao: "Modelo carregado",
+      modelo: tf.sequential(),
       labels: [
         "Bicolor",
         "Calico",
@@ -159,9 +153,9 @@ export default {
         "Tabby Spotted",
         "Tortoiseshell"
       ],
-      valueToPredict: "",
+      objetoPredicao: "",
       img: gatoExemplo,
-      file: null,
+      arquivo: null,
       explicacaoTabbySpotted: false,
       explicacaoTabbyMackerel: false,
       explicacaoTabbyClassic: false,
@@ -173,7 +167,6 @@ export default {
       explicacaoTortoiseShell: false,
       listaCompletaProbabiblidades: "",
       canvas: "",
-      foto: "",
       stream: null,
       displayFoto: true,
       displayVideo: false,
@@ -182,13 +175,14 @@ export default {
       btnAtivarVideo: true,
       btnEncerrarVideo: false,
       btnTirarFoto: false,
-      divExplicacaoPelagens: false
+      divExplicacaoPelagens: false,
+      displayQFile: true
     };
   },
   mounted() {
     try {
       window.fetch = fetchPolyfill;
-      this.resetarExplicacao();
+      this.limparExplicacao();
       this.carregarModelo();
     } catch (error) {
       alert(error);
@@ -199,20 +193,27 @@ export default {
     this.canvas.height = video.width = this.height;
   },
   methods: {
-    tirarFoto() {
-      var context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      var data = canvas.toDataURL("image/png");
-      this.img = data;
-      this.displayFoto = true;
-      this.displayVideo = false;
-      this.displayCanvas = false;
-      this.btnAtivarVideo = false;
-      this.btnTirarFoto = false;
-      this.btnEncerrarVideo = true;
-      this.divExplicacaoPelagens = true;
-
-      this.predizerImagem();
+    async carregarModelo() {
+      this.msgPredicao = "Carregando modelo ...";
+      try {
+        this.modelo = await tf.loadLayersModel("model/model.json");
+      } catch (error) {
+        alert(error);
+      }
+      this.msgPredicao = "Modelo carregado";
+    },
+    limparExplicacao() {
+      this.explicacaoTabbySpotted = false;
+      this.explicacaoTabbyMackerel = false;
+      this.explicacaoTabbyClassic = false;
+      this.explicacaoSolidColor = false;
+      this.explicacaoPointColor = false;
+      this.explicacaoHairless = false;
+      this.explicacaoBicolor = false;
+      this.explicacaoCalico = false;
+      this.explicacaoTortoiseShell = false;
+      this.divExplicacaoPelagens = false;
+      this.listaCompletaProbabiblidades = "";
     },
     ativarVideo() {
       this.displayFoto = false;
@@ -221,9 +222,9 @@ export default {
       this.btnAtivarVideo = false;
       this.btnTirarFoto = true;
       this.btnEncerrarVideo = true;
-      this.file = null;
-      this.resetarExplicacao();
-      this.msg = "Clique em tirar foto";
+      this.limparExplicacao();
+      this.msgPredicao = "Clique em tirar foto";
+      this.displayQFile = false;
 
       this.stream = navigator.mediaDevices
         .getUserMedia({
@@ -242,6 +243,20 @@ export default {
           console.log("An error occurred: " + err);
         });
     },
+    tirarFoto() {
+      var context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      var data = canvas.toDataURL("image/png");
+      this.img = data;
+      this.displayFoto = true;
+      this.displayVideo = false;
+      this.displayCanvas = false;
+      this.btnAtivarVideo = false;
+      this.btnTirarFoto = false;
+      this.btnEncerrarVideo = true;
+      this.divExplicacaoPelagens = true;
+      this.predizerImagem();
+    },
     encerrarVideo() {
       this.displayVideo = false;
       this.displayCanvas = false;
@@ -250,10 +265,10 @@ export default {
       this.btnTirarFoto = false;
       this.btnEncerrarVideo = false;
       this.img = gatoExemplo;
-      this.msg = "Modelo carregado";
-      this.resetarExplicacao();
-
-      console.log("Stream 1", this.stream);
+      this.msgPredicao = "Modelo carregado";
+      this.displayQFile = true;
+      this.arquivo = null;
+      this.limparExplicacao();
 
       document.getElementById("video").srcObject = null;
 
@@ -264,32 +279,23 @@ export default {
         }
       });
     },
-    async carregarModelo() {
-      this.msg = "Carregando modelo ...";
-      try {
-        this.model = await tf.loadLayersModel("model/model.json");
-      } catch (error) {
-        alert(error);
-      }
-      this.msg = "Modelo carregado";
-    },
     predizerImagem() {
       this.divExplicacaoPelagens = true;
-      this.msg = "Reconhecendo pelagem aguarde...";
-      this.valueToPredict = document.getElementById("foto");
-      let arrInput = tf.browser.fromPixels(this.valueToPredict); //
-      this.valueToPredict = tf.image
+      this.msgPredicao = "Reconhecendo pelagem aguarde...";
+      this.objetoPredicao = document.getElementById("foto");
+      let arrInput = tf.browser.fromPixels(this.objetoPredicao); //
+      this.objetoPredicao = tf.image
         .resizeBilinear(arrInput, [224, 224])
         .reshape([1, 224, 224, 3])
         .div(tf.scalar(255));
       let valor = "";
       try {
-        valor = this.model.predict(this.valueToPredict);
+        valor = this.modelo.predict(this.objetoPredicao);
       } catch (error) {
         alert(error);
       }
 
-      this.msg =
+      this.msgPredicao =
         "<b>" +
         this.labels[valor.argMax(-1).dataSync()[0]] +
         "</b>: " +
@@ -337,28 +343,13 @@ export default {
       this.displayVideo = false;
       this.displayCanvas = false;
 
-      this.predictedValue = "";
-      this.img = URL.createObjectURL(this.file);
+      this.objetoPredicao = "";
+      this.img = URL.createObjectURL(this.arquivo);
 
-      console.log(this.file);
-      this.msg = "Reconhecendo pelagem aguarde...";
-      this.resetarExplicacao();
-      setTimeout(() => {
-        this.predizerImagem();
-      }, 2000);
-    },
-    resetarExplicacao() {
-      this.explicacaoTabbySpotted = false;
-      this.explicacaoTabbyMackerel = false;
-      this.explicacaoTabbyClassic = false;
-      this.explicacaoSolidColor = false;
-      this.explicacaoPointColor = false;
-      this.explicacaoHairless = false;
-      this.explicacaoBicolor = false;
-      this.explicacaoCalico = false;
-      this.explicacaoTortoiseShell = false;
-      this.divExplicacaoPelagens = false;
-      this.listaCompletaProbabiblidades = "";
+      this.msgPredicao = "Reconhecendo pelagem aguarde...";
+
+      this.limparExplicacao();
+      this.predizerImagem();
     }
   },
   components: {

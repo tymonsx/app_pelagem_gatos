@@ -1,7 +1,6 @@
 <template>
   <q-page :style-fn="myTweak">
     <p
-      class="text-justify"
       :class="$q.screen.width > 1000 ? 'text-center' : 'text-justify'"
       style="margin-left: 0.8%; width:98%;"
     >
