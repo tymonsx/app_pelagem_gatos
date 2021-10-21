@@ -5,7 +5,7 @@
       <q-list>
         <q-expansion-item
             label="Tutorial sobre como bater a foto"
-            :group="$q.screen.width > 1000 ? 'a' : 'sobre'"
+            group="tutorial_bater_foto"
             class="bg-secondary text-justify"
             :default-opened="$q.screen.width > 1000"
           >
@@ -17,7 +17,8 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
-        <q-expansion-item label="Processo de criação" :group="$q.screen.width > 1000 ? 'b' : 'sobre'" :class="$q.screen.width > 1000 ? 'bg-secondary text-justify' : 'text-justify'"
+        <q-expansion-item label="Processo de criação" group="processo_criacao"
+ :class="$q.screen.width > 1000 ? 'bg-secondary text-justify' : 'text-justify'"
           :default-opened="$q.screen.width > 1000">
         <q-card>
           <q-card-section class="text-dark text-justify">
@@ -81,9 +82,8 @@
              Este projeto foi realizado pela equipe de desenvolvimento do Departamento de Informática em Saúde - EPM - UNIFESP
               <ul>
                 <li>Antonio Carlos da Silva Junior: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
-                <li>Ivan Calixto Ribeiro: Técnico de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
+                <li>Ivan Calixto Ribeiro - Departamento de Informática em Saúde da UNIFESP.</li>
                 <li>Raphael Hendrigo de Souza Gonçalves: Analista de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.</li>
-                <li>Vitor Tonini Machado: Arquivista no Departamento de Informática em Saúde e líder do Escritório de Projetos do DIS</li>
               </ul>
               Colaboração internacional Trinity College Dublin - Institute of Neuroscience
               <ul>
@@ -95,7 +95,7 @@
       </q-expansion-item>
       <q-expansion-item
         label="Explicação sobre tipos de pelagem"
-        :group="$q.screen.width > 1000 ? 'c' : 'sobre'"
+        group="explicacao_tipos_pelagem"
         class="bg-secondary text-justify"
         :default-opened="$q.screen.width > 1000"
       >
@@ -113,7 +113,8 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-      <q-expansion-item label="Links externos" :group="$q.screen.width > 1000 ? 'c' : 'sobre'" :class="$q.screen.width > 1000 ? 'bg-secondary text-justify' : 'text-justify'"
+      <q-expansion-item label="Links externos" group="links_externos"
+ :class="$q.screen.width > 1000 ? 'bg-secondary text-justify' : 'text-justify'"
           :default-opened="$q.screen.width > 1000">
         <q-card>
           <q-card-section class="text-dark text-justify">
@@ -207,10 +208,10 @@ import calico from "components/Calico.vue";
 import tortoiseShell from "components/TortoiseShell.vue";
 import exemploFotosIncorretas from "components/ExemploFotosIncorretas.vue";
 import exemploFotosCorretas from "components/ExemploFotosCorretas.vue";
-
+ 
 export default {
   name: "Sobre",
-
+ 
   methods: {
     abrirLink(url) {
       openURL(url);

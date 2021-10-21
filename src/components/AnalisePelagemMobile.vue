@@ -10,12 +10,20 @@
         outlined
         v-model="arquivo"
         @input="carregarImagem"
+        accept=".jpg, image/*"
         ><template v-slot:prepend> </template>
       </q-file>
     </div>
     <div id="divBotoes" class="full-width text-center q-gutter-sm">
       <q-btn id="btnTirarFoto" color="primary" @click="tirarFoto()"
         >Tirar foto</q-btn
+      >
+      <q-btn
+        id="btnLimparCampos"
+        color="primary"
+        @click="limparCampos()"
+        v-show="btnLimparCampos"
+        >Limpar Campos</q-btn
       >
     </div>
     <div id="msg" v-html="msgPredicao" class="textoPredito"></div>
@@ -57,7 +65,7 @@
       >
         <q-card>
           <div
-            v-html="listaCompletaProbabiblidades"
+            v-html="listaCompletaProbabilidades"
             class="text-justify"
             style="text-align: left; margin-left:2%;"
           ></div>
@@ -73,7 +81,6 @@
 }
 .QFileGato {
   width: 224px;
-  display: inline-block;
 }
 .textoPredito {
   white-space: pre-wrap;
@@ -82,11 +89,10 @@
   margin-top: 2%;
 }
 </style>
-
 <script>
 import * as tf from "@tensorflow/tfjs";
 import { fetch as fetchPolyfill } from "whatwg-fetch";
-import gatoExemplo from "assets/logo.png";
+import logo from "assets/logo.png";
 import tabbySpotted from "components/TabbySpotted.vue";
 import tabbyMackerel from "components/TabbyMackerel.vue";
 import tabbyClassic from "components/TabbyClassic.vue";
@@ -115,7 +121,7 @@ export default {
         "Tortoiseshell"
       ],
       objetoPredicao: "",
-      img: gatoExemplo,
+      img: logo,
       arquivo: null,
       explicacaoTabbySpotted: false,
       explicacaoTabbyMackerel: false,
@@ -126,7 +132,8 @@ export default {
       explicacaoBicolor: false,
       explicacaoCalico: false,
       explicacaoTortoiseShell: false,
-      listaCompletaProbabiblidades: ""
+      listaCompletaProbabilidades: "",
+      btnLimparCampos: false
     };
   },
   mounted() {
@@ -148,6 +155,16 @@ export default {
       }
       this.msgPredicao = "Modelo Carregado";
     },
+    limparCampos() {
+      this.img = logo;
+      document.getElementById("foto").src = logo;
+      this.arquivo = null;
+      this.objetoPredicao = "";
+      this.listaCompletaProbabilidades = "";
+      this.msgPredicao = "Tire uma foto ou adicione uma imagem";
+      this.btnLimparCampos = false;
+      this.limparExplicacao();
+    },
     limparExplicacao() {
       this.explicacaoTabbySpotted = false;
       this.explicacaoTabbyMackerel = false;
@@ -158,34 +175,53 @@ export default {
       this.explicacaoBicolor = false;
       this.explicacaoCalico = false;
       this.explicacaoTortoiseShell = false;
+      this.listaCompletaProbabilidades = "";
+    },
+    alertaCarregando(param) {
+      if (param == true) {
+        this.$q.loading.show({
+          spinnerColor: "primary",
+          spinnerSize: 140,
+          backgroundColor: "white",
+          message: "Carregando... Por favor aguarde",
+          messageColor: "black"
+        });
+      } else if (param == false) {
+        this.$q.loading.hide();
+      }
     },
     tirarFoto() {
-      let opts = {
-        quality: 100,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        mediaType: Camera.MediaType.PICTURE,
-        encodingType: Camera.EncodingType.JPEG,
-        cameraDirection: Camera.Direction.BACK,
-        correctOrientation: true,
-        targetWidth: this.width,
-        targetHeight: this.height
-      };
+      try {
+        let opts = {
+          quality: 100,
+          destinationType: Camera.DestinationType.FILE_URI,
+          sourceType: Camera.PictureSourceType.CAMERA,
+          mediaType: Camera.MediaType.PICTURE,
+          encodingType: Camera.EncodingType.JPEG,
+          cameraDirection: Camera.Direction.BACK,
+          correctOrientation: true,
+          targetWidth: this.width,
+          targetHeight: this.height
+        };
+        navigator.camera.getPicture(
+          imgURI => {
+            document.getElementById("foto").src = imgURI;
+            this.limparExplicacao();
+            this.msgPredicao = "Reconhecendo pelagem aguarde...";
+            setTimeout(() => {
+              this.predizerImagem();
+            }, 500);
+          },
+          msg => {
+            this.msgPredicao = msg;
+          },
+          opts
+        );
+      } catch (error) {
+        console.log(error);
+      }
 
-      navigator.camera.getPicture(
-        imgURI => {
-          document.getElementById("foto").src = imgURI;
-          this.limparExplicacao();
-          this.msgPredicao = "Reconhecendo pelagem aguarde...";
-          setTimeout(() => {
-            this.predizerImagem();
-          }, 2000);
-        },
-        msg => {
-          this.msgPredicao = msg;
-        },
-        opts
-      );
+      this.btnLimparCampos = true;
     },
     predizerImagem() {
       this.objetoPredicao = document.getElementById("foto");
@@ -195,56 +231,65 @@ export default {
         .resizeBilinear(arrInput, [224, 224])
         .reshape([1, 224, 224, 3])
         .div(tf.scalar(255));
-      let valor = "";
-      try {
-        valor = this.modelo.predict(this.objetoPredicao);
-      } catch (error) {
-        alert(error);
-      }
 
-      this.msgPredicao =
-        "<b>" +
-        this.labels[valor.argMax(-1).dataSync()[0]] +
-        "</b>: " +
-        (valor.dataSync()[valor.argMax(-1).dataSync()[0]] * 100).toFixed(4) +
-        "%";
+      this.alertaCarregando(true);
 
-      switch (valor.argMax(-1).dataSync()[0]) {
-        case 0:
-          this.explicacaoBicolor = true;
-          break;
-        case 1:
-          this.explicacaoCalico = true;
-          break;
-        case 2:
-          this.explicacaoHairless = true;
-          break;
-        case 3:
-          this.explicacaoPointColor = true;
-          break;
-        case 4:
-          this.explicacaoSolidColor = true;
-          break;
-        case 5:
-          this.explicacaoTabbyClassic = true;
-          break;
-        case 6:
-          this.explicacaoTabbyMackerel = true;
-          break;
-        case 7:
-          this.explicacaoTabbySpotted = true;
-          break;
-        case 8:
-          this.explicacaoTortoiseShell = true;
-          break;
-      }
+      setTimeout(() => {
+        let valor = "";
+        try {
+          valor = this.modelo.predict(this.objetoPredicao);
+          //console.log("valor ", valor.argMax(-1));
+        } catch (error) {
+          alert(error);
+        }
 
-      this.listaCompletaProbabiblidades = "";
-      valor.dataSync().forEach((element, index) => {
-        let percent = (element * 100).toFixed(4);
-        this.listaCompletaProbabiblidades +=
-          " " + percent + "% - " + this.labels[index] + "<br>";
-      });
+        this.msgPredicao =
+          "<b>" +
+          this.labels[valor.argMax(-1).dataSync()[0]] +
+          "</b>: " +
+          (valor.dataSync()[valor.argMax(-1).dataSync()[0]] * 100).toFixed(4) +
+          "%";
+
+        switch (valor.argMax(-1).dataSync()[0]) {
+          case 0:
+            this.explicacaoBicolor = true;
+            break;
+          case 1:
+            this.explicacaoCalico = true;
+            break;
+          case 2:
+            this.explicacaoHairless = true;
+            break;
+          case 3:
+            this.explicacaoPointColor = true;
+            break;
+          case 4:
+            this.explicacaoSolidColor = true;
+            break;
+          case 5:
+            this.explicacaoTabbyClassic = true;
+            break;
+          case 6:
+            this.explicacaoTabbyMackerel = true;
+            break;
+          case 7:
+            this.explicacaoTabbySpotted = true;
+            break;
+          case 8:
+            this.explicacaoTortoiseShell = true;
+            break;
+        }
+
+        this.listaCompletaProbabilidades = "";
+        valor.dataSync().forEach((element, index) => {
+          let percent = (element * 100).toFixed(4);
+          this.listaCompletaProbabilidades +=
+            " " + percent + "% - " + this.labels[index] + "<br>";
+        });
+
+        this.alertaCarregando(false);
+        this.btnLimparCampos = true;
+      }, 500);
     },
     carregarImagem() {
       this.img = URL.createObjectURL(this.arquivo);

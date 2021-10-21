@@ -4,7 +4,7 @@
       <img
         :src="img"
         alt="image"
-        id="foto"
+        id="fotoDesktop"
         class="photo"
         style="object-fit:cover;"
         v-show="displayFoto"
@@ -15,7 +15,7 @@
         style="object-fit:cover;"
         v-show="displayVideo"
       >
-        Video não disponível.
+        Vídeo não disponível.
       </video>
       <canvas
         id="canvas"
@@ -32,6 +32,7 @@
         v-model="arquivo"
         @input="carregarImagem"
         v-show="displayQFile"
+        accept=".jpg, image/*"
         ><template v-slot:prepend> </template>
       </q-file>
     </div>
@@ -58,6 +59,13 @@
         v-show="btnEncerrarVideo"
         @click="encerrarVideo()"
         >Encerrar Vídeo</q-btn
+      >
+      <q-btn
+        id="btnLimparCampos"
+        color="primary"
+        @click="limparCampos()"
+        v-show="btnLimparCampos"
+        >Limpar Campos</q-btn
       >
     </div>
     <div id="msg" v-html="msgPredicao" class="full-width textoPredito"></div>
@@ -94,14 +102,21 @@
         v-show="explicacaoTortoiseShell"
       />
     </div>
-    <q-list id="listaCompletaProbabilidades">
+    <q-list
+      id="listaCompletaProbabilidades"
+      style="margin-left: 0.8%; width:98%;"
+    >
       <q-expansion-item
         label="Lista completa das probabilidades"
         group="listaProbabilidades"
-        class="full-width bg-secondary"
+        class="bg-secondary"
       >
         <q-card>
-          <div v-html="listaCompletaProbabiblidades" class="full-width"></div>
+          <div
+            v-html="listaCompletaProbabilidades"
+            style="margin-left:5px;"
+            class="text-justify"
+          ></div>
         </q-card>
       </q-expansion-item>
     </q-list>
@@ -112,6 +127,7 @@
   height: 244px;
   width: 244px;
 }
+
 .textoPredito {
   white-space: pre-wrap;
   text-align: center;
@@ -121,11 +137,10 @@
   width: 244px;
 }
 </style>
-
 <script>
 import * as tf from "@tensorflow/tfjs";
 import { fetch as fetchPolyfill } from "whatwg-fetch";
-import gatoExemplo from "assets/logo.png";
+import logo from "assets/logo.png";
 import tabbySpotted from "components/TabbySpotted.vue";
 import tabbyMackerel from "components/TabbyMackerel.vue";
 import tabbyClassic from "components/TabbyClassic.vue";
@@ -154,7 +169,7 @@ export default {
         "Tortoiseshell"
       ],
       objetoPredicao: "",
-      img: gatoExemplo,
+      img: logo,
       arquivo: null,
       explicacaoTabbySpotted: false,
       explicacaoTabbyMackerel: false,
@@ -165,7 +180,7 @@ export default {
       explicacaoBicolor: false,
       explicacaoCalico: false,
       explicacaoTortoiseShell: false,
-      listaCompletaProbabiblidades: "",
+      listaCompletaProbabilidades: "",
       canvas: "",
       stream: null,
       displayFoto: true,
@@ -176,7 +191,8 @@ export default {
       btnEncerrarVideo: false,
       btnTirarFoto: false,
       divExplicacaoPelagens: false,
-      displayQFile: true
+      displayQFile: true,
+      btnLimparCampos: false
     };
   },
   mounted() {
@@ -202,6 +218,19 @@ export default {
       }
       this.msgPredicao = "Modelo carregado";
     },
+    limparCampos() {
+      this.img = logo;
+      this.arquivo = null;
+      this.objetoPredicao = "";
+      this.listaCompletaProbabilidades = "";
+      this.msgPredicao = "Tire uma foto ou adicione uma imagem";
+      this.btnLimparCampos = false;
+      this.limparExplicacao();
+
+      if (this.stream != null) {
+        this.encerrarVideo();
+      }
+    },
     limparExplicacao() {
       this.explicacaoTabbySpotted = false;
       this.explicacaoTabbyMackerel = false;
@@ -213,7 +242,7 @@ export default {
       this.explicacaoCalico = false;
       this.explicacaoTortoiseShell = false;
       this.divExplicacaoPelagens = false;
-      this.listaCompletaProbabiblidades = "";
+      this.listaCompletaProbabilidades = "";
     },
     ativarVideo() {
       this.displayFoto = false;
@@ -222,9 +251,11 @@ export default {
       this.btnAtivarVideo = false;
       this.btnTirarFoto = true;
       this.btnEncerrarVideo = true;
+      this.arquivo = null;
       this.limparExplicacao();
       this.msgPredicao = "Clique em tirar foto";
       this.displayQFile = false;
+      this.btnLimparCampos = false;
 
       this.stream = navigator.mediaDevices
         .getUserMedia({
@@ -243,8 +274,22 @@ export default {
           console.log("An error occurred: " + err);
         });
     },
+    alertaCarregando(param) {
+      if (param == true) {
+        this.$q.loading.show({
+          spinnerColor: "primary",
+          spinnerSize: 140,
+          backgroundColor: "white",
+          message: "Carregando... Por favor aguarde",
+          messageColor: "black"
+        });
+      } else if (param == false) {
+        this.$q.loading.hide();
+      }
+    },
     tirarFoto() {
       var context = canvas.getContext("2d");
+
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       var data = canvas.toDataURL("image/png");
       this.img = data;
@@ -256,6 +301,7 @@ export default {
       this.btnEncerrarVideo = true;
       this.divExplicacaoPelagens = true;
       this.predizerImagem();
+      this.btnLimparCampos = false;
     },
     encerrarVideo() {
       this.displayVideo = false;
@@ -264,7 +310,7 @@ export default {
       this.btnAtivarVideo = true;
       this.btnTirarFoto = false;
       this.btnEncerrarVideo = false;
-      this.img = gatoExemplo;
+      this.img = logo;
       this.msgPredicao = "Modelo carregado";
       this.displayQFile = true;
       this.arquivo = null;
@@ -282,74 +328,87 @@ export default {
     predizerImagem() {
       this.divExplicacaoPelagens = true;
       this.msgPredicao = "Reconhecendo pelagem aguarde...";
-      this.objetoPredicao = document.getElementById("foto");
-      let arrInput = tf.browser.fromPixels(this.objetoPredicao); //
+      this.objetoPredicao = document.getElementById("fotoDesktop");
+      //console.log("objeto ", this.objetoPredicao);
+
+      let arrInput = tf.browser.fromPixels(this.objetoPredicao);
       this.objetoPredicao = tf.image
         .resizeBilinear(arrInput, [224, 224])
         .reshape([1, 224, 224, 3])
         .div(tf.scalar(255));
-      let valor = "";
-      try {
-        valor = this.modelo.predict(this.objetoPredicao);
-      } catch (error) {
-        alert(error);
-      }
 
-      this.msgPredicao =
-        "<b>" +
-        this.labels[valor.argMax(-1).dataSync()[0]] +
-        "</b>: " +
-        (valor.dataSync()[valor.argMax(-1).dataSync()[0]] * 100).toFixed(4) +
-        "%";
+      this.alertaCarregando(true);
 
-      switch (valor.argMax(-1).dataSync()[0]) {
-        case 0:
-          this.explicacaoBicolor = true;
-          break;
-        case 1:
-          this.explicacaoCalico = true;
-          break;
-        case 2:
-          this.explicacaoHairless = true;
-          break;
-        case 3:
-          this.explicacaoPointColor = true;
-          break;
-        case 4:
-          this.explicacaoSolidColor = true;
-          break;
-        case 5:
-          this.explicacaoTabbyClassic = true;
-          break;
-        case 6:
-          this.explicacaoTabbyMackerel = true;
-          break;
-        case 7:
-          this.explicacaoTabbySpotted = true;
-          break;
-        case 8:
-          this.explicacaoTortoiseShell = true;
-          break;
-      }
-      this.listaCompletaProbabiblidades = "";
-      valor.dataSync().forEach((element, index) => {
-        let percent = (element * 100).toFixed(4);
-        this.listaCompletaProbabiblidades +=
-          " " + percent + "% - " + this.labels[index] + "<br>";
-      });
+      setTimeout(() => {
+        let valor = "";
+        try {
+          valor = this.modelo.predict(this.objetoPredicao);
+          //console.log("valor ", valor.argMax(-1));
+        } catch (error) {
+          alert(error);
+        }
+
+        this.msgPredicao =
+          "<b>" +
+          this.labels[valor.argMax(-1).dataSync()[0]] +
+          "</b>: " +
+          (valor.dataSync()[valor.argMax(-1).dataSync()[0]] * 100).toFixed(4) +
+          "%";
+
+        switch (valor.argMax(-1).dataSync()[0]) {
+          case 0:
+            this.explicacaoBicolor = true;
+            break;
+          case 1:
+            this.explicacaoCalico = true;
+            break;
+          case 2:
+            this.explicacaoHairless = true;
+            break;
+          case 3:
+            this.explicacaoPointColor = true;
+            break;
+          case 4:
+            this.explicacaoSolidColor = true;
+            break;
+          case 5:
+            this.explicacaoTabbyClassic = true;
+            break;
+          case 6:
+            this.explicacaoTabbyMackerel = true;
+            break;
+          case 7:
+            this.explicacaoTabbySpotted = true;
+            break;
+          case 8:
+            this.explicacaoTortoiseShell = true;
+            break;
+        }
+
+        this.listaCompletaProbabilidades = "";
+        valor.dataSync().forEach((element, index) => {
+          let percent = (element * 100).toFixed(4);
+          this.listaCompletaProbabilidades +=
+            " " + percent + "% - " + this.labels[index] + "<br>";
+        });
+        this.alertaCarregando(false);
+      }, 500);
+
+      this.btnLimparCampos = true;
     },
     carregarImagem() {
       this.displayFoto = true;
       this.displayVideo = false;
       this.displayCanvas = false;
 
-      this.objetoPredicao = "";
+      //this.objetoPredicao = "";
       this.img = URL.createObjectURL(this.arquivo);
 
       this.msgPredicao = "Reconhecendo pelagem aguarde...";
-
       this.limparExplicacao();
-      this.predizerImagem();
+      setTimeout(() => {
+        this.predizerImagem();
+      }, 500);
     }
   },
   components: {
